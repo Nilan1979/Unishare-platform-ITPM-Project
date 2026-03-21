@@ -11,9 +11,12 @@ app.use(express.urlencoded({ extended: true }));
 
 // Import Feedback Route
 const FeedbackRouter = require("./routes/FeedbackRoute");
+const QuizRouter = require("./routes/QuizRoute");
+
 
 // Use Route
 app.use("/Feedback", FeedbackRouter);
+app.use("/quiz", QuizRouter);
 
 // Test Route
 app.get("/", (req, res) => {
@@ -51,7 +54,7 @@ const connectWithRetry = () => {
 
         console.log("Retrying in 5 seconds...");
 
-        setTimeout(connectWithRetry, 5000);
+        setTimeout(connectWithRetry, 8000);
 
     });
 
