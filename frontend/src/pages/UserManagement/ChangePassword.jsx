@@ -17,7 +17,7 @@ export default function ChangePassword() {
 
     try {
       const token = localStorage.getItem('token');
-      await axios.put('http://localhost:5000/api/users/change-password', formData, {
+      await axios.put('http://localhost:8000/api/users/change-password', formData, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setMessage({ text: 'Password changed successfully!', type: 'success' });

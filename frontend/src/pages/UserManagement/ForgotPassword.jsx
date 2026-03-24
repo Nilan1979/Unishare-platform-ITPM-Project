@@ -227,7 +227,7 @@ export default function ForgotPassword() {
     setMessage({ text: 'Sending reset link…', type: 'info' });
 
     try {
-      await axios.post('http://localhost:5000/api/users/forgot-password', {
+      await axios.post('http://localhost:8000/api/users/forgot-password', {
         email: email.toLowerCase().trim(),
       });
       setSentTo(email.toLowerCase().trim());
@@ -247,7 +247,7 @@ export default function ForgotPassword() {
     setLoading(true);
     setMessage({ text: 'Resending reset link…', type: 'info' });
     try {
-      await axios.post('http://localhost:5000/api/users/forgot-password', { email: sentTo });
+      await axios.post('http://localhost:8000/api/users/forgot-password', { email: sentTo });
       setMessage({ text: 'Reset link resent successfully!', type: 'success' });
     } catch (err) {
       setMessage({

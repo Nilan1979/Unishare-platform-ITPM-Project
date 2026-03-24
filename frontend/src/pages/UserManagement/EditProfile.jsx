@@ -30,7 +30,7 @@ export default function EditProfile() {
     e.preventDefault();
     try {
       const token = localStorage.getItem('token');
-      const res = await axios.put('http://localhost:5000/api/users/profile', 
+      const res = await axios.put('http://localhost:8000/api/users/profile', 
         { 
           fullName: formData.fullName, 
           faculty: formData.faculty, 

@@ -17,7 +17,7 @@ export default function ResetPassword() {
     }
 
     try {
-      await axios.post(`http://localhost:5000/api/users/reset-password/${token}`, { password: formData.newPassword });
+      await axios.post(`http://localhost:8000/api/users/reset-password/${token}`, { password: formData.newPassword });
       setMessage({ text: 'Password has been reset successfully!', type: 'success' });
       setTimeout(() => navigate('/login'), 2500);
     } catch (err) {
