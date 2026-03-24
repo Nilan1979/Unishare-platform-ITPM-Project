@@ -19,7 +19,6 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<ResourceDashboard />} />
         <Route path="/dashboard" element={<ResourceDashboard />} />
         <Route path="/home" element={<Home />} />
         <Route path="/quiz" element={<QuizPage />} />
