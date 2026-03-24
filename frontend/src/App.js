@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import ResourceDashboard from "./pages/Resource_Dashboard/Resource_Dashboard";
 import Home from "./pages/Home/Home";
-import QuizPage from "./pages/Quiz/QuizPage";
+import QuizPage from "./pages/Quiz/Quiz";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Library from "./pages/Library/Library";
@@ -22,7 +22,6 @@ function App() {
         <Route path="/upload" element={<UploadNotes />} />
       </Routes>
     </Router>
-    
   );
 }
 
