@@ -14,6 +14,7 @@ import Register  from "./pages/UserManagement/Register";
 import Login from './pages/UserManagement/Login';
 import ForgotPassword from "./pages/UserManagement/ForgotPassword"; 
 import UploadNotes from "./pages/Library/UploadPdf";
+import Forum from "./pages/Forum/Forum"
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
         <Route path="/Login" element={<Login />} />
          <Route path="/ForgotPassword" element={<ForgotPassword />} />
 
+        <Route path="/forum" element={<Forum />} />
 
         <Route path="/upload" element={<UploadNotes />} />
       </Routes>
