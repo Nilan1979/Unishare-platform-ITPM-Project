@@ -6,6 +6,9 @@ import QuizPage from "./pages/Quiz/QuizPage";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Library from "./pages/Library/Library";
+import Register  from "./pages/UserManagement/Register";
+import Login from './pages/UserManagement/Login';
+import ForgotPassword from "./pages/UserManagement/ForgotPassword"; 
 
 function App() {
   return (
@@ -18,6 +21,10 @@ function App() {
         <Route path="/Navbar" element={<Navbar />} />
         <Route path="/Footer" element={<Footer />} />
         <Route path="/library" element={<Library />} />
+        <Route path="/Register" element={<Register />} />
+        <Route path="/Login" element={<Login />} />
+         <Route path="/ForgotPassword" element={<ForgotPassword />} />
+
 
       </Routes>
     </Router>
