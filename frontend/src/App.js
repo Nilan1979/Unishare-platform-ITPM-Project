@@ -19,6 +19,7 @@ import Profile from "./pages/UserManagement/Profile";
 
 
 import UploadNotes from "./pages/Library/UploadPdf";
+import Feedback from "./pages/Feedback/Feedback";
 import Forum from "./pages/Forum/Forum"
 
 function App() {
@@ -41,6 +42,8 @@ function App() {
          <Route path="/Profile" element={<Profile />} />
          <Route path="/EditProfile" element={<EditProfile />} />
   
+         <Route path="/Feedback" element={<Feedback/>} />
+
 
         <Route path="/forum" element={<Forum />} />
 
