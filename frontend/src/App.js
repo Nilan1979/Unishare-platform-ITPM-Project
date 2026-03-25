@@ -13,6 +13,11 @@ import Createmeeting from "./pages/Kuppi/Createmeeting";
 import Register  from "./pages/UserManagement/Register";
 import Login from './pages/UserManagement/Login';
 import ForgotPassword from "./pages/UserManagement/ForgotPassword"; 
+import AdminUsers from "./pages/UserManagement/AdminUsers";
+import EditProfile from "./pages/UserManagement/EditProfile";
+import Profile from "./pages/UserManagement/Profile";
+
+
 import UploadNotes from "./pages/Library/UploadPdf";
 import Feedback from "./pages/Feedback/Feedback";
 import Forum from "./pages/Forum/Forum"
@@ -33,6 +38,10 @@ function App() {
         <Route path="/Register" element={<Register />} />
         <Route path="/Login" element={<Login />} />
          <Route path="/ForgotPassword" element={<ForgotPassword />} />
+         <Route path="/AdminUsers" element={<AdminUsers />} />
+         <Route path="/Profile" element={<Profile />} />
+         <Route path="/EditProfile" element={<EditProfile />} />
+  
          <Route path="/Feedback" element={<Feedback/>} />
 
 
