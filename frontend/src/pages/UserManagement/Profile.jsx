@@ -599,7 +599,7 @@ export default function Profile() {
               No saved notes yet
             </p>
             <p style={{ fontSize: "0.82rem" }}>
-              Star notes from the library to save them here for quick access.
+              Star notes from the library to save them here for quick access..
             </p>
           </div>
         )}
