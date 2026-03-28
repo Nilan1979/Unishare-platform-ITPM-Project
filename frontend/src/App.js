@@ -21,6 +21,7 @@ import ForgotPassword from "./pages/UserManagement/ForgotPassword";
 import AdminUsers     from "./pages/UserManagement/AdminUsers";
 import EditProfile    from "./pages/UserManagement/EditProfile";
 import Profile        from "./pages/UserManagement/Profile";
+import ChangePassword from "./pages/UserManagement/ChangePassword";
 
 // ── Auth guard ────────────────────────────────────────────────────────────
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -106,6 +107,15 @@ function App() {
         } />
         <Route path="/EditProfile" element={
           <ProtectedRoute><EditProfile /></ProtectedRoute>
+        } />
+        <Route path="/edit-profile" element={
+          <ProtectedRoute><EditProfile /></ProtectedRoute>
+        } />
+        <Route path="/ChangePassword" element={
+          <ProtectedRoute><ChangePassword /></ProtectedRoute>
+        } />
+        <Route path="/change-password" element={
+          <ProtectedRoute><ChangePassword /></ProtectedRoute>
         } />
 
         {/* Admin — protected + only admin role can reach this in practice */}

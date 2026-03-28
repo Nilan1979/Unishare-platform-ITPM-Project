@@ -80,12 +80,26 @@ exports.loginUser = async (req, res) => {
       });
     }
 
+    const safeUser = user.toSafeObject();
+    
+    // Ensure role is always included
+    if (!safeUser.role) {
+      safeUser.role = user.role || 'student';
+    }
+    
+    // Debug logging
+    console.log('✓ Login successful for:', safeUser.email);
+    console.log('  Role:', safeUser.role);
+    console.log('  Full Name:', safeUser.fullName);
+    console.log('  Safe User Object:', safeUser);
+
     res.status(200).json({
       message: 'Login successful',
-      user: user.toSafeObject()
+      user: safeUser
     });
 
   } catch (error) {
+    console.error('✗ Login error:', error.message);
     res.status(500).json({
       message: error.message
     });

@@ -199,7 +199,7 @@ export default function Register() {
 
     setLoading(true);
     try {
-      await axios.post('http://localhost:8000/api/users/register', {
+      await axios.post('http://localhost:8000/User/register', {
         fullName:     formData.fullName.trim(),
         email:        formData.email.toLowerCase().trim(),
         password:     formData.password,

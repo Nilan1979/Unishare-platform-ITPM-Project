@@ -11,4 +11,19 @@ router.get('/:id', userController.getUserById);
 router.put('/:id', userController.updateUser);
 router.delete('/:id', userController.deleteUser);
 
+// Debug endpoint to check admin users
+router.get('/debug/check-admins', async (req, res) => {
+  try {
+    const User = require('../models/Usermanagement');
+    const admins = await User.find({ role: 'admin' }).select('-password');
+    console.log('📋 Admin users:', admins);
+    res.json({
+      total: admins.length,
+      admins: admins
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 module.exports = router;
