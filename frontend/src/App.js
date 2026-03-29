@@ -12,6 +12,7 @@ import Createmeeting     from "./pages/Kuppi/Createmeeting";
 import UploadNotes       from "./pages/Library/UploadPdf";
 import Feedback          from "./pages/Feedback/Feedback";
 import Forum             from "./pages/Forum/Forum";
+import ForumThread       from "./pages/Forum/ForumThread";
 import About             from "./pages/About/About";
 
 // ── User Management ────────────────────────────────────────────────────────
@@ -86,6 +87,9 @@ function App() {
         {/* Community */}
         <Route path="/forum" element={
           <ProtectedRoute><Forum /></ProtectedRoute>
+        } />
+        <Route path="/forum/:id" element={
+          <ProtectedRoute><ForumThread /></ProtectedRoute>
         } />
         <Route path="/Feedback" element={
           <ProtectedRoute><Feedback /></ProtectedRoute>

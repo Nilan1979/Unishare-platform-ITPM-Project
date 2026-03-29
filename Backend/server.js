@@ -25,7 +25,7 @@ app.use("/quiz",      QuizRouter);
 app.use("/uploads",   express.static("uploads"));
 app.use("/Materials", MaterialRouter);
 app.use("/User", UserRouter);
-app.use("/Forum", ForumRouter);
+app.use("/forum", ForumRouter);
 
 
 
