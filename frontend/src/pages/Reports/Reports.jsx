@@ -188,55 +188,48 @@ const Reports = () => {
           <p>No reports found</p>
         </div>
       ) : (
-        <div className="reports-list">
-          {filteredReports.map((report) => (
-            <div key={report._id} className="report-card">
-              <div className="report-header">
-                <div className="report-title-section">
-                  <h3>{report.contentTitle}</h3>
-                  <div className="report-badges">
+        <div className="reports-table-container">
+          <table className="reports-table">
+            <thead>
+              <tr>
+                <th>Content Title</th>
+                <th>Type</th>
+                <th>Reason</th>
+                <th>Reported By</th>
+                <th>Reported User</th>
+                <th>Status</th>
+                <th>Date</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredReports.map((report) => (
+                <tr key={report._id} className="report-row">
+                  <td className="cell-title">{report.contentTitle}</td>
+                  <td className="cell-type">
                     <span className={`badge type-badge ${getTypeColor(report.contentType)}`}>
                       {report.contentType}
                     </span>
+                  </td>
+                  <td className="cell-reason">{report.reason}</td>
+                  <td className="cell-reported-by">{report.reportedBy}</td>
+                  <td className="cell-reported-user">
+                    {report.reportedUserId.firstName} {report.reportedUserId.lastName}
+                  </td>
+                  <td className="cell-status">
                     <span className={`badge ${getStatusBadgeClass(report.status)}`}>
                       {report.status.charAt(0).toUpperCase() + report.status.slice(1)}
                     </span>
-                  </div>
-                </div>
-                <div className="report-date">{formatDate(report.date)}</div>
-              </div>
-
-              <div className="report-content">
-                <div className="report-field">
-                  <span className="field-label">Reason:</span>
-                  <span className="field-value">{report.reason}</span>
-                </div>
-
-                <div className="report-field">
-                  <span className="field-label">Description:</span>
-                  <p className="field-description">{report.description}</p>
-                </div>
-
-                <div className="report-meta">
-                  <div className="meta-item">
-                    <span className="meta-label">Reported By:</span>
-                    <span className="meta-value">{report.reportedBy}</span>
-                  </div>
-                  <div className="meta-item">
-                    <span className="meta-label">Reported User:</span>
-                    <span className="meta-value">
-                      {report.reportedUserId.firstName} {report.reportedUserId.lastName}
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="report-footer">
-                <button className="btn btn-view">View Details</button>
-                <button className="btn btn-action">Take Action</button>
-              </div>
-            </div>
-          ))}
+                  </td>
+                  <td className="cell-date">{formatDate(report.date)}</td>
+                  <td className="cell-actions">
+                    <button className="btn btn-view">View</button>
+                    <button className="btn btn-action">Action</button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       )}
     </div>

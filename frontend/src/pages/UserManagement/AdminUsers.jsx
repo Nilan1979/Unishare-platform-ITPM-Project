@@ -2,19 +2,19 @@ import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import {
   Users, Flag, Trash2, AlertTriangle, Eye, X, CheckCircle,
-  XCircle, Download, Search, Shield, ChevronDown, Bell,
-  FileText, Clock, User, Mail, Hash, BookOpen, GraduationCap,
+  XCircle, Download, Search, Shield, Bell,
+  FileText, Clock, User, Hash, BookOpen,
   MessageSquare, BarChart2, RefreshCw, LogOut,
 } from "lucide-react";
 import Navbar from "../../components/Navbar";
 
 /* ─────────────────────────── MOCK DATA ─────────────────────────── */
 const MOCK_USERS = [
-  { _id: "u1", fullName: "Kavisha Perera",   studentId: "IT21234567", email: "kavisha.p@students.nsbm.ac.lk",   faculty: "Faculty of Computing",  academicYear: "2nd Year", semester: "Sem 3", warningCount: 0, isActive: true },
-  { _id: "u2", fullName: "Dineth Silva",     studentId: "IT21345678", email: "dineth.s@students.nsbm.ac.lk",   faculty: "Faculty of Computing",  academicYear: "3rd Year", semester: "Sem 5", warningCount: 1, isActive: true },
-  { _id: "u3", fullName: "Amaya Fernando",  studentId: "BM21456789", email: "amaya.f@students.nsbm.ac.lk",    faculty: "Faculty of Business",   academicYear: "1st Year", semester: "Sem 1", warningCount: 2, isActive: false },
-  { _id: "u4", fullName: "Rasith Jayaweera",studentId: "EN21567890", email: "rasith.j@students.nsbm.ac.lk",   faculty: "Faculty of Engineering",academicYear: "2nd Year", semester: "Sem 4", warningCount: 0, isActive: true },
-  { _id: "u5", fullName: "Nimali Bandara",  studentId: "SC21678901", email: "nimali.b@students.nsbm.ac.lk",   faculty: "Faculty of Science",    academicYear: "3rd Year", semester: "Sem 6", warningCount: 1, isActive: true },
+  { _id: "u1", fullName: "Kavisha Perera",   studentId: "IT21234567", email: "IT21234567@my.sliit.lk",   faculty: "Faculty of Computing",  academicYear: "2nd Year", semester: "Sem 3", warningCount: 0, isActive: true },
+  { _id: "u2", fullName: "Dineth Silva",     studentId: "IT21345678", email: "IT21345678@my.sliit.lk",   faculty: "Faculty of Computing",  academicYear: "3rd Year", semester: "Sem 5", warningCount: 1, isActive: true },
+  { _id: "u3", fullName: "Amaya Fernando",  studentId: "BM21456789", email: "BM21456789@my.sliit.lk",    faculty: "Faculty of Business",   academicYear: "1st Year", semester: "Sem 1", warningCount: 2, isActive: false },
+  { _id: "u4", fullName: "Rasith Jayaweera",studentId: "EN21567890", email: "EN21567890@my.sliit.lk",   faculty: "Faculty of Engineering",academicYear: "2nd Year", semester: "Sem 4", warningCount: 0, isActive: true },
+  { _id: "u5", fullName: "Nimali Bandara",  studentId: "SC21678901", email: "SC21678901@my.sliit.lk",   faculty: "Faculty of Science",    academicYear: "3rd Year", semester: "Sem 6", warningCount: 1, isActive: true },
 ];
 
 const MOCK_REPORTS = [
@@ -918,7 +918,6 @@ export default function AdminPanel() {
                           <th>Year / Sem</th>
                           <th>Warnings</th>
                           <th>Reports</th>
-                          <th>Status</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -948,11 +947,6 @@ export default function AdminPanel() {
                                 ) : (
                                   <span style={{ fontSize: "0.7rem", color: "#aaa", fontWeight: 600 }}>—</span>
                                 )}
-                              </td>
-                              <td>
-                                <span className={`badge ${u.isActive ? "badge-active" : "badge-inactive"}`}>
-                                  {u.isActive ? "Active" : "Inactive"}
-                                </span>
                               </td>
                             </tr>
                           );
