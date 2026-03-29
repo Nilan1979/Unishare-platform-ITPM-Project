@@ -6,6 +6,7 @@ import {
   FileText, Clock, User, Mail, Hash, BookOpen, GraduationCap,
   MessageSquare, BarChart2, RefreshCw, LogOut,
 } from "lucide-react";
+import Navbar from "../../components/Navbar";
 
 /* ─────────────────────────── MOCK DATA ─────────────────────────── */
 const MOCK_USERS = [
@@ -17,10 +18,12 @@ const MOCK_USERS = [
 ];
 
 const MOCK_REPORTS = [
-  { _id: "r1", contentTitle: "Data Structures — Exam Cheats",  contentType: "File",    reason: "Inappropriate Content", description: "This file appears to contain exam answer leaks which violate academic integrity policies.", reportedBy: "Nimali Bandara", reportedUserId: "u2", date: "2025-07-18", status: "pending" },
-  { _id: "r2", contentTitle: "Comment on ML Notes thread",    contentType: "Comment", reason: "Harassment",            description: "User left abusive language targeting another student in the comments section.", reportedBy: "Kavisha Perera", reportedUserId: "u3", date: "2025-07-17", status: "pending" },
-  { _id: "r3", contentTitle: "OS Lab Manual 2024",            contentType: "File",    reason: "Copyright Violation",   description: "This lab manual appears to be scanned directly from the official university textbook without permission.", reportedBy: "Rasith Jayaweera", reportedUserId: "u5", date: "2025-07-15", status: "reviewed" },
-  { _id: "r4", contentTitle: "Business Law Summary Notes",    contentType: "File",    reason: "Spam / Low Quality",    description: "The uploaded document is just a blank file with no real content, just filler text to inflate upload count.", reportedBy: "Dineth Silva", reportedUserId: "u3", date: "2025-07-12", status: "rejected" },
+  { _id: "r1", contentTitle: "Inappropriate Forum Post",  contentType: "Forum",    reason: "Offensive Language", description: "The user posted offensive content in the general forum that violates community guidelines.", reportedBy: "John Doe", reportedUserId: "u2", date: "2024-03-28", status: "pending" },
+  { _id: "r2", contentTitle: "Quiz Answer Leak",    contentType: "Quiz", reason: "Cheating",            description: "User shared quiz answers in the group chat, compromising test integrity.", reportedBy: "Admin", reportedUserId: "u3", date: "2024-03-25", status: "reviewed" },
+  { _id: "r3", contentTitle: "Spam Material Upload",            contentType: "File",    reason: "Spam Content",   description: "Multiple irrelevant files uploaded to the library without description.", reportedBy: "Sarah Wilson", reportedUserId: "u5", date: "2024-03-20", status: "rejected" },
+  { _id: "r4", contentTitle: "Harassment in Comments",    contentType: "Comment",    reason: "Harassment",    description: "User made derogatory comments targeting another student.", reportedBy: "Emma Davis", reportedUserId: "u1", date: "2024-03-26", status: "pending" },
+  { _id: "r5", contentTitle: "Plagiarized Report",            contentType: "File",    reason: "Plagiarism",   description: "Submitted report appears to be copied from online sources without proper citation.", reportedBy: "Professor Admin", reportedUserId: "u5", date: "2024-03-22", status: "reviewed" },
+  { _id: "r6", contentTitle: "Forum Advertisement",    contentType: "Forum",    reason: "Unauthorized Advertising",    description: "User posting commercial advertisements in educational forum.", reportedBy: "Moderator", reportedUserId: "u4", date: "2024-03-27", status: "pending" },
 ];
 
 /* ─────────────────────────── HELPERS ─────────────────────────── */
@@ -55,6 +58,7 @@ body { font-family: 'Poppins', sans-serif; background: #f4f7ff; color: #1a1a2e; 
   position: fixed; top: 0; left: 0; bottom: 0;
   z-index: 50;
   box-shadow: 4px 0 24px rgba(13,34,87,0.18);
+  padding-top: 70px;
 }
 .sidebar-logo {
   padding: 28px 24px 22px;
@@ -676,7 +680,10 @@ export default function AdminPanel() {
 
   useEffect(() => {
     axios.get(`${API}/reports`, { headers: authHeader() })
-      .then(r => setReports(r.data))
+      .then(r => {
+        // Use real data if available, otherwise use mock data
+        setReports(r.data && r.data.length > 0 ? r.data : MOCK_REPORTS);
+      })
       .catch(() => setReports(MOCK_REPORTS));
   }, []);
 
@@ -781,6 +788,7 @@ export default function AdminPanel() {
 
   return (
     <div>
+      <Navbar />
       <style>{CSS}</style>
 
       <div className="admin-shell">

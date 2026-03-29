@@ -19,6 +19,9 @@ export default function Profile() {
 
   const [activeTab, setActiveTab] = useState(0);
 
+  // Determine user role dynamically: "Admin" for admin users, "Student Contributor" for students
+  const userRole = user.role && user.role.toLowerCase() === "admin" ? "Admin" : "Student Contributor";
+
   const STATS = [
     { icon: <Upload size={18} />, label: "Uploads",   value: "12",   color: "#1565C0", bg: "#e8f0fe" },
     { icon: <Download size={18} />, label: "Downloads", value: "1.4k", color: "#0f6e56", bg: "#e6f4f1" },
@@ -534,7 +537,7 @@ export default function Profile() {
                 {[
                   { icon: <BookOpen size={13} />,      label: "Faculty",       value: user.faculty },
                   { icon: <GraduationCap size={13} />, label: "Academic Year",  value: user.academicYear },
-                  { icon: <Shield size={13} />,        label: "Role",           value: "Student Contributor" },
+                  { icon: <Shield size={13} />,        label: "Role",           value: userRole },
                 ].map(r => (
                   <div className="detail-row" key={r.label}>
                     <div className="detail-icon">{r.icon}</div>
