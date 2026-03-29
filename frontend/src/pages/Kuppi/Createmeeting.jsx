@@ -21,6 +21,18 @@ const SEMESTERS = [1, 2];
 
 const API_BASE = "http://localhost:8000/api/meetings";
 
+function pad2(value) {
+  return String(value).padStart(2, "0");
+}
+
+function getTodayDateString(now = new Date()) {
+  return `${now.getFullYear()}-${pad2(now.getMonth() + 1)}-${pad2(now.getDate())}`;
+}
+
+function getCurrentTimeString(now = new Date()) {
+  return `${pad2(now.getHours())}:${pad2(now.getMinutes())}`;
+}
+
 function getLoggedUser() {
   try {
     return JSON.parse(localStorage.getItem("user"));
@@ -32,6 +44,8 @@ function getLoggedUser() {
 export default function CreateMeeting() {
   const navigate = useNavigate();
   const currentUser = getLoggedUser();
+  const todayDate = getTodayDateString();
+  const currentTime = getCurrentTimeString();
 
   const [form, setForm] = useState({
     title: "",
@@ -61,6 +75,18 @@ export default function CreateMeeting() {
     if (!form.scheduledTime)      e.scheduledTime= "Time is required.";
     if (!form.semester)           e.semester     = "Semester is required.";
     if (!form.module)             e.module       = "Module is required.";
+
+    if (form.scheduledAt && form.scheduledTime) {
+      const selectedDateTime = new Date(`${form.scheduledAt}T${form.scheduledTime}`);
+      const now = new Date();
+
+      if (Number.isNaN(selectedDateTime.getTime())) {
+        e.scheduledTime = "Please enter a valid date and time.";
+      } else if (selectedDateTime < now) {
+        e.scheduledTime = "Date and time cannot be in the past.";
+      }
+    }
+
     return e;
   };
 
@@ -425,6 +451,7 @@ export default function CreateMeeting() {
                       name="scheduledAt"
                       value={form.scheduledAt}
                       onChange={handle}
+                      min={todayDate}
                     />
                     {errors.scheduledAt && <span className="cm-error">{errors.scheduledAt}</span>}
                   </div>
@@ -438,6 +465,7 @@ export default function CreateMeeting() {
                       name="scheduledTime"
                       value={form.scheduledTime}
                       onChange={handle}
+                      min={form.scheduledAt === todayDate ? currentTime : undefined}
                     />
                     {errors.scheduledTime && <span className="cm-error">{errors.scheduledTime}</span>}
                   </div>
