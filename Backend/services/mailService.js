@@ -4,40 +4,87 @@ const nodemailer = require("nodemailer");
  * ============================================
  * MAIL SERVICE - NODEMAILER CONFIGURATION
  * ============================================
- * Simple email sending utility for forgot password, OTP, and warnings
+ * Email sending utility for OTP, password reset, and notifications
+ * 
+ * IMPORTANT: Use Gmail App Password, NOT your regular Gmail password!
+ * 1. Go to: https://myaccount.google.com/apppasswords
+ * 2. Select "Mail" and "Windows Computer"
+ * 3. Copy the 16-character password
+ * 4. Set SENDER_PASSWORD in .env file
+ * 
+ * Do NOT use this for less secure apps setting.
  */
 
-// Create transporter (reusable connection)
+// Create transporter with proper Gmail configuration
 const transporter = nodemailer.createTransport({
   service: "gmail",
+  host: "smtp.gmail.com",
+  port: 587,
+  secure: false, // Use TLS
   auth: {
     user: process.env.SENDER_EMAIL,
-    pass: process.env.SENDER_PASSWORD,
+    pass: process.env.SENDER_PASSWORD, // Must be App Password, not regular password
   },
+});
+
+// Verify transporter connection on startup
+transporter.verify((error, success) => {
+  if (error) {
+    console.error("❌ Email transporter verification failed:", error.message);
+    console.log("⚠️  Check SENDER_EMAIL and SENDER_PASSWORD in .env file");
+    console.log("⚠️  Use Gmail App Password, not your regular password");
+  } else {
+    console.log("✅ Email transporter is ready to send messages");
+  }
 });
 
 /**
  * Send Email - Generic Function
- * @param {string} recipientEmail - Student email address
+ * @param {string} recipientEmail - Recipient email address
  * @param {string} subject - Email subject
  * @param {string} htmlContent - Email body (HTML format)
- * @returns {Promise} - Returns success or error
+ * @returns {Promise<Object>} - Returns { success: boolean, message: string, info?: object }
+ * @throws {Error} - Throws error if email sending fails
  */
 const sendEmail = async (recipientEmail, subject, htmlContent) => {
   try {
+    if (!process.env.SENDER_EMAIL || !process.env.SENDER_PASSWORD) {
+      throw new Error('Email configuration missing: SENDER_EMAIL or SENDER_PASSWORD not set in .env');
+    }
+
     const mailOptions = {
-      from: process.env.SENDER_EMAIL,
+      from: `"UniShare" <${process.env.SENDER_EMAIL}>`,
       to: recipientEmail,
       subject: subject,
       html: htmlContent,
+      // Add reply-to for better email handling
+      replyTo: process.env.SENDER_EMAIL,
     };
 
+    console.log(`📧 Sending email to: ${recipientEmail}`);
     const info = await transporter.sendMail(mailOptions);
-    console.log("✅ Email sent:", info.response);
-    return { success: true, message: "Email sent successfully" };
+    
+    console.log("✅ Email sent successfully");
+    console.log(`   MessageID: ${info.messageId}`);
+    console.log(`   Response: ${info.response}`);
+    
+    return { 
+      success: true, 
+      message: "Email sent successfully",
+      info: info 
+    };
   } catch (error) {
-    console.error("❌ Email sending failed:", error.message);
-    return { success: false, message: error.message };
+    console.error("❌ Email sending failed:");
+    console.error(`   Error: ${error.message}`);
+    console.error(`   Code: ${error.code}`);
+    
+    // Log specific Gmail errors for debugging
+    if (error.code === 'EAUTH') {
+      console.error("   ⚠️  Authentication failed - check your Google App Password");
+    }
+    
+    // Throw the error so it propagates to the calling function
+    throw error;
   }
 };
 
@@ -72,28 +119,65 @@ const sendForgotPasswordEmail = async (recipientEmail, resetToken, resetLink) =>
 /**
  * Send OTP Email
  * @param {string} recipientEmail - Student email
- * @param {string} otp - One-time password
+ * @param {string} otp - One-time password (6 digits)
+ * @param {string} fullName - User's full name (optional)
+ * @returns {Promise<Object>} - Returns { success: true, message, info }
+ * @throws {Error} - Throws error if email sending fails
  */
-const sendOTPEmail = async (recipientEmail, otp) => {
+const sendOTPEmail = async (recipientEmail, otp, fullName = 'UniShare Student') => {
   const htmlContent = `
-    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
-      <h2 style="color: #333;">Your OTP Code</h2>
-      <p>Hello,</p>
-      <p>Your One-Time Password (OTP) for verification is:</p>
+    <div style="font-family: 'Poppins', Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; color: #333;">
       
-      <div style="background-color: #f0f0f0; padding: 20px; border-radius: 5px; text-align: center; margin: 20px 0;">
-        <h1 style="color: #007bff; letter-spacing: 5px; margin: 0;">${otp}</h1>
+      <!-- Header with brand -->
+      <div style="text-align: center; padding: 20px 0; border-bottom: 2px solid #f0f0f0; margin-bottom: 30px;">
+        <h1 style="color: #0d2257; margin: 0; font-size: 28px;">🎓 UniShare</h1>
+        <p style="color: #999; font-size: 12px; margin: 5px 0 0 0;">Secure Password Reset</p>
       </div>
-      
-      <p style="color: #666; font-size: 14px;">This OTP expires in 10 minutes.</p>
-      
-      <p style="color: #999; font-size: 12px; margin-top: 30px;">
-        If you didn't request this OTP, please ignore this email.
-      </p>
+
+      <!-- Main content -->
+      <div style="padding: 0 20px;">
+        <h2 style="color: #0d2257; font-size: 22px; margin: 0 0 10px 0;">Password Reset OTP</h2>
+        <p style="color: #666; font-size: 14px; line-height: 1.6; margin: 0 0 20px 0;">
+          Hi <strong>${fullName}</strong>,
+        </p>
+
+        <p style="color: #666; font-size: 14px; line-height: 1.6; margin: 0 0 20px 0;">
+          We received a request to reset your UniShare account password. Use the One-Time Password (OTP) below to proceed with your password reset:
+        </p>
+
+        <!-- OTP Display Box -->
+        <div style="background: linear-gradient(135deg, #0d2257 0%, #1565C0 100%); padding: 30px; border-radius: 10px; text-align: center; margin: 25px 0; box-shadow: 0 4px 15px rgba(21, 101, 192, 0.25);">
+          <p style="color: rgba(255,255,255,0.8); font-size: 12px; margin: 0 0 10px 0; text-transform: uppercase; letter-spacing: 1px;">Your OTP Code</p>
+          <h1 style="color: white; font-size: 48px; letter-spacing: 8px; margin: 0; font-family: 'Courier New', monospace; font-weight: 700;">${otp}</h1>
+        </div>
+
+        <!-- Important info -->
+        <div style="background-color: #f4f7ff; border-left: 4px solid #1565C0; padding: 15px; border-radius: 5px; margin: 20px 0;">
+          <p style="color: #0d2257; font-size: 13px; font-weight: 600; margin: 0 0 8px 0;">⏱️ Important Information</p>
+          <ul style="color: #666; font-size: 13px; margin: 0; padding-left: 20px; line-height: 1.8;">
+            <li>This OTP will expire in <strong>5 minutes</strong></li>
+            <li>Never share this code with anyone</li>
+            <li>This code is valid only for password reset</li>
+          </ul>
+        </div>
+
+        <!-- Security notice -->
+        <p style="color: #999; font-size: 12px; line-height: 1.6; margin: 25px 0 0 0; text-align: center;">
+          If you didn't request a password reset, please ignore this email. Your account remains secure.
+        </p>
+
+        <!-- Footer -->
+        <div style="border-top: 1px solid #eee; margin-top: 30px; padding-top: 20px; text-align: center; font-size: 12px; color: #999;">
+          <p style="margin: 0;">UniShare Platform - SLIIT Student Community</p>
+          <p style="margin: 5px 0 0 0;">For support, contact your administrator</p>
+        </div>
+      </div>
+
     </div>
   `;
 
-  return sendEmail(recipientEmail, "🔐 Your OTP Code - Unishare Platform", htmlContent);
+  // This will throw an error if email sending fails
+  return sendEmail(recipientEmail, "🔐 Your OTP Code - UniShare Password Reset", htmlContent);
 };
 
 /**

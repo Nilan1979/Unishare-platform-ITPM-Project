@@ -126,13 +126,13 @@ const userSchema = new mongoose.Schema(
     },
 
     // ─── OTP VERIFICATION ──────────────────────
-    otp: {
+    otpCode: {
       type: String,
       default: null,
       select: false,
     },
 
-    otpExpiry: {
+    otpExpires: {
       type: Date,
       default: null,
     },

@@ -13,6 +13,9 @@ const { verifyToken } = require('../middleware/auth');
 // ──────────────────────────────────────────────────────────────────────
 router.post('/register', userController.registerUser);
 router.post('/login', userController.loginUser);
+router.post('/forgot-password', userController.forgotPassword);
+router.post('/verify-otp', userController.verifyOTP);
+router.post('/reset-password', userController.resetPassword);
 
 // ──────────────────────────────────────────────────────────────────────
 // GET STATIC ROUTES (these don't use req.params.id)
