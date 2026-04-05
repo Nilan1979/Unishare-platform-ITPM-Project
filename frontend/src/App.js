@@ -19,9 +19,11 @@ import About             from "./pages/About/About";
 import Register       from "./pages/UserManagement/Register";
 import Login          from "./pages/UserManagement/Login";
 import ForgotPassword from "./pages/UserManagement/ForgotPassword";
+import ResetPassword  from "./pages/UserManagement/ResetPassword";
 import AdminUsers     from "./pages/UserManagement/AdminUsers";
 import EditProfile    from "./pages/UserManagement/EditProfile";
 import Profile        from "./pages/UserManagement/Profile";
+import ChangePassword from "./pages/UserManagement/ChangePassword";
 
 // ── Auth guard ────────────────────────────────────────────────────────────
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -40,7 +42,10 @@ function App() {
         <Route path="/Login"          element={<Login />} />          {/* alias */}
         <Route path="/register"       element={<Register />} />
         <Route path="/Register"       element={<Register />} />       {/* alias */}
-        <Route path="/ForgotPassword" element={<ForgotPassword />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/ForgotPassword" element={<ForgotPassword />} /> {/* alias */}
+        <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/ResetPassword" element={<ResetPassword />} />   {/* alias */}
 
         {/* Redirect bare root to home (ProtectedRoute inside Home handles the rest) */}
         <Route path="/" element={
@@ -110,6 +115,15 @@ function App() {
         } />
         <Route path="/EditProfile" element={
           <ProtectedRoute><EditProfile /></ProtectedRoute>
+        } />
+        <Route path="/edit-profile" element={
+          <ProtectedRoute><EditProfile /></ProtectedRoute>
+        } />
+        <Route path="/ChangePassword" element={
+          <ProtectedRoute><ChangePassword /></ProtectedRoute>
+        } />
+        <Route path="/change-password" element={
+          <ProtectedRoute><ChangePassword /></ProtectedRoute>
         } />
 
         {/* Admin — protected + only admin role can reach this in practice */}
