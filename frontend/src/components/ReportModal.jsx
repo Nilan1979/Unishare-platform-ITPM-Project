@@ -1,0 +1,172 @@
+import { useState } from "react";
+import { createPortal } from "react-dom";
+import { X, AlertCircle, CheckCircle } from "lucide-react";
+import { reportService } from "../services/reportService";
+import "./ReportModal.css";
+
+export default function ReportModal({ contentId, contentType, contentTitle, onClose, onSuccess }) {
+  const [reason, setReason] = useState("");
+  const [description, setDescription] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState(false);
+
+  const reasons = [
+    "Offensive Language",
+    "Harassment",
+    "Spam",
+    "Plagiarism",
+    "Cheating/Academic Misconduct",
+    "Inappropriate Content",
+    "Copyright Violation",
+    "Other",
+  ];
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!reason) {
+      setError("Please select a reason");
+      return;
+    }
+    if (!description.trim()) {
+      setError("Please provide a description");
+      return;
+    }
+
+    setLoading(true);
+    setError("");
+
+    try {
+      const user = JSON.parse(localStorage.getItem("user"));
+      const reportData = {
+        reportedBy: user?.name || user?.email || user?.fullName || "Anonymous",
+        reportedUserId: user?._id || user?.id,
+        contentId: contentId,
+        contentTitle: contentTitle,
+        contentType: "File",
+        reason,
+        description,
+        status: "pending",
+      };
+
+      await reportService.submitReport(reportData);
+      setSuccess(true);
+      if (onSuccess) onSuccess();
+      
+      setTimeout(() => {
+        onClose();
+      }, 2000);
+    } catch (err) {
+      setError(err.message || "Failed to submit report");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (success) {
+    return createPortal(
+      <div className="report-modal-overlay" onClick={onClose}>
+        <div className="report-modal" onClick={(e) => e.stopPropagation()}>
+          <div className="report-success">
+            <CheckCircle size={40} className="success-icon" />
+            <h2>Report Submitted</h2>
+            <p>Thank you for helping keep our community safe. Our team will review your report shortly.</p>
+          </div>
+        </div>
+      </div>,
+      document.body
+    );
+  }
+
+  return createPortal(
+    <div className="report-modal-overlay" onClick={onClose}>
+      <div className="report-modal" onClick={(e) => e.stopPropagation()}>
+        {/* Header */}
+        <div className="report-modal-header">
+          <div>
+            <h2>Report Content</h2>
+            <p className="report-modal-subtitle">{contentTitle || contentType}</p>
+          </div>
+          <button className="report-modal-close" onClick={onClose}>
+            <X size={20} />
+          </button>
+        </div>
+
+        {/* Body */}
+        <form onSubmit={handleSubmit} className="report-modal-form">
+          {/* Error message */}
+          {error && (
+            <div className="report-error">
+              <AlertCircle size={16} />
+              <span>{error}</span>
+            </div>
+          )}
+
+          {/* Reason selection */}
+          <div className="report-form-group">
+            <label className="report-form-label">Why are you reporting this?</label>
+            <div className="report-reasons-grid">
+              {reasons.map((r) => (
+                <label key={r} className="report-reason-option">
+                  <input
+                    type="radio"
+                    name="reason"
+                    value={r}
+                    checked={reason === r}
+                    onChange={(e) => {
+                      setReason(e.target.value);
+                      setError("");
+                    }}
+                  />
+                  <span>{r}</span>
+                </label>
+              ))}
+            </div>
+          </div>
+
+          {/* Description */}
+          <div className="report-form-group">
+            <label className="report-form-label">
+              Additional Details
+              <span className="report-char-count">
+                {description.length}/500
+              </span>
+            </label>
+            <textarea
+              className="report-textarea"
+              placeholder="Please provide more details about why you're reporting this content..."
+              value={description}
+              onChange={(e) => {
+                if (e.target.value.length <= 500) {
+                  setDescription(e.target.value);
+                  setError("");
+                }
+              }}
+              rows="3"
+            />
+          </div>
+
+          {/* Buttons */}
+          <div className="report-modal-actions">
+            <button
+              type="button"
+              className="report-btn-cancel"
+              onClick={onClose}
+              disabled={loading}
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="report-btn-submit"
+              disabled={loading || !reason || !description.trim()}
+            >
+              {loading ? "Submitting..." : "Submit Report"}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>,
+    document.body
+  );
+}

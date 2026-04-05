@@ -659,7 +659,7 @@ function StudentReportsModal({ student, reports, onClose }) {
 export default function AdminPanel() {
   const [tab, setTab] = useState("users");
   const [users, setUsers] = useState(MOCK_USERS);
-  const [reports, setReports] = useState(MOCK_REPORTS);
+  const [reports, setReports] = useState([]);
   const [search, setSearch] = useState("");
   const [facultyFilter, setFacultyFilter] = useState("all");
   const [statusFilter, setStatusFilter] = useState("all");
@@ -683,12 +683,25 @@ export default function AdminPanel() {
   }, []);
 
   useEffect(() => {
-    axios.get(`${API}/reports`, { headers: authHeader() })
-      .then(r => {
-        // Use real data if available, otherwise use mock data
-        setReports(r.data && r.data.length > 0 ? r.data : MOCK_REPORTS);
+    // Fetch from real API endpoint
+    fetch(`http://localhost:8000/api/reports/`)
+      .then(response => response.json())
+      .then(data => {
+        // Check if response has success flag and data array
+        if (data.success && data.data && data.data.length > 0) {
+          setReports(data.data);
+        } else if (Array.isArray(data)) {
+          // Fallback if API returns array directly
+          setReports(data);
+        } else {
+          // Use mock data if no real reports
+          setReports(MOCK_REPORTS);
+        }
       })
-      .catch(() => setReports(MOCK_REPORTS));
+      .catch(error => {
+        console.error("Error fetching reports:", error);
+        setReports(MOCK_REPORTS);
+      });
   }, []);
 
   /* ── Handlers ── */
@@ -993,14 +1006,15 @@ export default function AdminPanel() {
                           <th>Type</th>
                           <th>Reason</th>
                           <th>Reported By</th>
-                          <th>Reported User</th>
                           <th>Date</th>
                           <th>Status</th>
                           <th>Action</th>
                         </tr>
                       </thead>
                       <tbody>
-                        {filteredReports.map(r => (
+                        {filteredReports.map(r => {
+                          const formattedDate = r.createdAt ? new Date(r.createdAt).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" }) : r.date || "N/A";
+                          return (
                           <tr key={r._id}>
                             <td className="td-name" style={{ maxWidth: 200 }}>{r.contentTitle}</td>
                             <td>
@@ -1010,8 +1024,7 @@ export default function AdminPanel() {
                             </td>
                             <td style={{ fontSize: "0.73rem" }}>{r.reason}</td>
                             <td style={{ fontSize: "0.73rem" }}>{r.reportedBy}</td>
-                            <td style={{ fontSize: "0.73rem", color: "#0d2257" }}>{r.reportedUserName}</td>
-                            <td style={{ fontSize: "0.7rem", color: "#aaa" }}>{r.date}</td>
+                            <td style={{ fontSize: "0.7rem", color: "#aaa" }}>{formattedDate}</td>
                             <td>
                               <span className={`badge ${
                                 r.status === "pending" ? "badge-pending" :
@@ -1032,7 +1045,8 @@ export default function AdminPanel() {
                               )}
                             </td>
                           </tr>
-                        ))}
+                          );
+                        })}
                       </tbody>
                     </table>
                   )}

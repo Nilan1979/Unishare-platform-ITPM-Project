@@ -1,10 +1,11 @@
 import { useState, useEffect, useCallback } from "react";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
+import ReportModal from "../../components/ReportModal";
 import {
   Search, Upload, Download, ThumbsUp, Clock, GraduationCap,
   Globe, Lock, Heart, Eye, Trash2, BookOpen, User,
-  CheckCircle, X
+  CheckCircle, X, Flag
 } from "lucide-react";
 import UploadNotes from "./UploadPdf";
 import "./Library.css";
@@ -101,7 +102,7 @@ function SkeletonCard() {
 }
 
 // ── Single note card ──────────────────────────────────────────────────────────
-function NoteCard({ note, userId, likedSet, onLikeToggle, onDownload, onDelete }) {
+function NoteCard({ note, userId, likedSet, onLikeToggle, onDownload, onDelete }) {  const [showReportModal, setShowReportModal] = useState(false);
   const level    = yearToLevel(note.year);
   const lv       = LEVEL_COLORS[level];
   const image    = MODULE_IMAGE[note.module];
@@ -203,8 +204,28 @@ function NoteCard({ note, userId, likedSet, onLikeToggle, onDownload, onDelete }
           >
             <Download size={13} /> Download
           </a>
+          <button
+            className="btn-report"
+            onClick={() => setShowReportModal(true)}
+            title="Report this content"
+          >
+            <Flag size={13} /> Report
+          </button>
         </div>
       </div>
+
+      {/* Report Modal */}
+      {showReportModal && (
+        <ReportModal
+          contentId={note._id}
+          contentType="Material/File"
+          contentTitle={note.title}
+          onClose={() => setShowReportModal(false)}
+          onSuccess={() => {
+            // Optional: show success message or update UI
+          }}
+        />
+      )}
     </div>
   );
 }

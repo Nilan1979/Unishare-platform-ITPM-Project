@@ -5,19 +5,34 @@ exports.createReport = async (req, res) => {
   try {
     const report = new Report(req.body);
     const savedReport = await report.save();
-    res.status(201).json(savedReport);
+    res.status(201).json({
+      success: true,
+      data: savedReport,
+      message: "Report created successfully"
+    });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
   }
 };
 
 // Get All Reports
 exports.getAllReports = async (req, res) => {
   try {
-    const reports = await Report.find().populate("reportedUserId");
-    res.json(reports);
+    // Fetch reports without populating User reference to avoid schema errors
+    const reports = await Report.find().sort({ createdAt: -1 });
+    res.status(200).json({
+      success: true,
+      data: reports,
+      message: "Reports retrieved successfully"
+    });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
   }
 };
 
@@ -25,10 +40,17 @@ exports.getAllReports = async (req, res) => {
 exports.getReportsByStudent = async (req, res) => {
   try {
     const { studentId } = req.params;
-    const reports = await Report.find({ reportedUserId: studentId }).populate("reportedUserId");
-    res.json(reports);
+    const reports = await Report.find({ reportedUserId: studentId }).sort({ createdAt: -1 });
+    res.json({
+      success: true,
+      data: reports,
+      message: "Student reports retrieved successfully"
+    });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
   }
 };
 
@@ -74,9 +96,22 @@ exports.deleteReport = async (req, res) => {
 // Get Report by ID
 exports.getReportById = async (req, res) => {
   try {
-    const report = await Report.findById(req.params.id).populate("reportedUserId");
-    res.json(report);
+    const report = await Report.findById(req.params.id);
+    if (!report) {
+      return res.status(404).json({
+        success: false,
+        message: "Report not found"
+      });
+    }
+    res.json({
+      success: true,
+      data: report,
+      message: "Report retrieved successfully"
+    });
   } catch (error) {
-    res.status(500).json({ message: error.message });
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
   }
 };
