@@ -254,7 +254,7 @@ const Reports = () => {
                       </span>
                     </td>
                     <td className="cell-reason">{report.reason}</td>
-                    <td className="cell-reported-by">{report.reportedBy}</td>
+                    <td className="cell-reported-by">{report.reportedByName}</td>
                     <td className="cell-status">
                       <span className={`badge status-badge ${getStatusBadgeClass(report.status)}`}>
                         {getStatusIcon(report.status)}

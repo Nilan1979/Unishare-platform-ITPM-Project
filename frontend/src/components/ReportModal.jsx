@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { createPortal } from "react-dom";
-import { X, AlertCircle, CheckCircle } from "lucide-react";
+import { X, AlertCircle, CheckCircle, Flag } from "lucide-react";
 import { reportService } from "../services/reportService";
 import "./ReportModal.css";
 
-export default function ReportModal({ contentId, contentType, contentTitle, onClose, onSuccess }) {
+export default function ReportModal({ contentId, contentType, contentTitle, contentOwnerId, contentOwnerName, onClose, onSuccess }) {
   const [reason, setReason] = useState("");
   const [description, setDescription] = useState("");
   const [loading, setLoading] = useState(false);
@@ -38,12 +38,24 @@ export default function ReportModal({ contentId, contentType, contentTitle, onCl
 
     try {
       const user = JSON.parse(localStorage.getItem("user"));
+      const userId = user?._id || user?.id;
+      
+      // Validate that user is not reporting their own content
+      if (userId && contentOwnerId && String(userId) === String(contentOwnerId)) {
+        setError("You cannot report your own content");
+        setLoading(false);
+        return;
+      }
+      
       const reportData = {
         reportedBy: user?.name || user?.email || user?.fullName || "Anonymous",
-        reportedUserId: user?._id || user?.id,
+        reportedByUserId: userId,
+        reportedUserId: contentOwnerId,
         contentId: contentId,
         contentTitle: contentTitle,
         contentType: "File",
+        contentOwnerId: contentOwnerId,
+        contentOwnerName: contentOwnerName,
         reason,
         description,
         status: "pending",
@@ -83,9 +95,14 @@ export default function ReportModal({ contentId, contentType, contentTitle, onCl
       <div className="report-modal" onClick={(e) => e.stopPropagation()}>
         {/* Header */}
         <div className="report-modal-header">
-          <div>
-            <h2>Report Content</h2>
-            <p className="report-modal-subtitle">{contentTitle || contentType}</p>
+          <div style={{ display: "flex", alignItems: "center", gap: "12px", flex: 1 }}>
+            <div style={{ width: 34, height: 34, borderRadius: 10, background: "#e8f0fe", color: "#1565C0", display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <Flag size={16} />
+            </div>
+            <div>
+              <h2>Report Content</h2>
+              <p className="report-modal-subtitle">{contentTitle || contentType}</p>
+            </div>
           </div>
           <button className="report-modal-close" onClick={onClose}>
             <X size={20} />

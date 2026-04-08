@@ -1,9 +1,41 @@
 const Report = require("../models/Report");
+const User = require("../models/Usermanagement");
 
 // Create Report
 exports.createReport = async (req, res) => {
   try {
-    const report = new Report(req.body);
+    // Validate that user is not reporting their own content
+    const { reportedUserId, contentOwnerId } = req.body;
+    
+    if (reportedUserId && contentOwnerId) {
+      const reporterIdStr = String(reportedUserId);
+      const ownerIdStr = String(contentOwnerId);
+      
+      if (reporterIdStr === ownerIdStr) {
+        return res.status(403).json({
+          success: false,
+          message: "You cannot report your own content"
+        });
+      }
+    }
+    
+    // Fetch the reporter's full name (from reportedByUserId, not reportedUserId)
+    let reportedByName = req.body.reportedByName || "Unknown User";
+    if (req.body.reportedByUserId) {
+      try {
+        const reporter = await User.findById(req.body.reportedByUserId).select("fullName");
+        reportedByName = reporter ? reporter.fullName : reportedByName;
+      } catch (err) {
+        // Keep the provided reportedByName if user fetch fails
+      }
+    }
+    
+    const reportData = {
+      ...req.body,
+      reportedByName: reportedByName
+    };
+    
+    const report = new Report(reportData);
     const savedReport = await report.save();
     res.status(201).json({
       success: true,
@@ -21,14 +53,43 @@ exports.createReport = async (req, res) => {
 // Get All Reports
 exports.getAllReports = async (req, res) => {
   try {
-    // Fetch reports without populating User reference to avoid schema errors
+    // Fetch reports
     const reports = await Report.find().sort({ createdAt: -1 });
+    
+    console.log(`📋 Fetching ${reports.length} reports...`);
+    
+    // Enrich reports with user names
+    const enrichedReports = await Promise.all(
+      reports.map(async (report) => {
+        const reportObj = report.toObject();
+        
+        // If reportedByName doesn't exist, fetch from user
+        if (!reportObj.reportedByName) {
+          try {
+            if (reportObj.reportedUserId) {
+              const user = await User.findById(reportObj.reportedUserId).select("fullName");
+              reportObj.reportedByName = user?.fullName || reportObj.reportedBy || "Unknown User";
+              console.log(`✅ Found name for user: ${reportObj.reportedByName}`);
+            } else {
+              reportObj.reportedByName = reportObj.reportedBy || "Unknown User";
+            }
+          } catch (err) {
+            console.error(`❌ Error fetching user:`, err.message);
+            reportObj.reportedByName = reportObj.reportedBy || "Unknown User";
+          }
+        }
+        
+        return reportObj;
+      })
+    );
+    
     res.status(200).json({
       success: true,
-      data: reports,
+      data: enrichedReports,
       message: "Reports retrieved successfully"
     });
   } catch (error) {
+    console.error("Error in getAllReports:", error);
     res.status(500).json({
       success: false,
       message: error.message
@@ -41,9 +102,32 @@ exports.getReportsByStudent = async (req, res) => {
   try {
     const { studentId } = req.params;
     const reports = await Report.find({ reportedUserId: studentId }).sort({ createdAt: -1 });
+    
+    // Enrich reports with user names
+    const enrichedReports = await Promise.all(
+      reports.map(async (report) => {
+        const reportObj = report.toObject();
+        
+        if (!reportObj.reportedByName) {
+          try {
+            if (reportObj.reportedUserId) {
+              const user = await User.findById(reportObj.reportedUserId).select("fullName");
+              reportObj.reportedByName = user?.fullName || reportObj.reportedBy || "Unknown User";
+            } else {
+              reportObj.reportedByName = reportObj.reportedBy || "Unknown User";
+            }
+          } catch (err) {
+            reportObj.reportedByName = reportObj.reportedBy || "Unknown User";
+          }
+        }
+        
+        return reportObj;
+      })
+    );
+    
     res.json({
       success: true,
-      data: reports,
+      data: enrichedReports,
       message: "Student reports retrieved successfully"
     });
   } catch (error) {
@@ -103,9 +187,26 @@ exports.getReportById = async (req, res) => {
         message: "Report not found"
       });
     }
+    
+    const reportObj = report.toObject();
+    
+    // If reportedByName doesn't exist, fetch from user
+    if (!reportObj.reportedByName) {
+      try {
+        if (reportObj.reportedUserId) {
+          const user = await User.findById(reportObj.reportedUserId).select("fullName");
+          reportObj.reportedByName = user?.fullName || reportObj.reportedBy || "Unknown User";
+        } else {
+          reportObj.reportedByName = reportObj.reportedBy || "Unknown User";
+        }
+      } catch (err) {
+        reportObj.reportedByName = reportObj.reportedBy || "Unknown User";
+      }
+    }
+    
     res.json({
       success: true,
-      data: report,
+      data: reportObj,
       message: "Report retrieved successfully"
     });
   } catch (error) {

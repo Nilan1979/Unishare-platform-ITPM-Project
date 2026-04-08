@@ -462,6 +462,14 @@ body { font-family: 'Poppins', sans-serif; }
 }
 .note-info span { display: flex; align-items: center; gap: 4px; }
 
+/* Uploader info */
+.note-uploader {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 0.72rem; color: #0d2257; font-weight: 500;
+  margin-bottom: 10px;
+}
+.note-uploader strong { font-weight: 600; color: #1565C0; }
+
 /* Action buttons */
 .note-actions { display: flex; gap: 8px; margin-top: auto; }
 .btn-view {

@@ -189,6 +189,12 @@ function NoteCard({ note, userId, likedSet, onLikeToggle, onDownload, onDelete }
           </span>
         </div>
 
+        {/* Uploader info */}
+        <div className="note-uploader">
+          <User size={12} />
+          <span>Uploaded by: <strong>{note.user?.fullName || "Unknown"}</strong></span>
+        </div>
+
         {/* Actions */}
         <div className="note-actions">
           <button className="btn-view" onClick={() => window.open(note.fileUrl, "_blank")}>
@@ -204,13 +210,15 @@ function NoteCard({ note, userId, likedSet, onLikeToggle, onDownload, onDelete }
           >
             <Download size={13} /> Download
           </a>
-          <button
-            className="btn-report"
-            onClick={() => setShowReportModal(true)}
-            title="Report this content"
-          >
-            <Flag size={13} /> Report
-          </button>
+          {!isOwner && (
+            <button
+              className="btn-report"
+              onClick={() => setShowReportModal(true)}
+              title="Report this content"
+            >
+              <Flag size={13} /> Report
+            </button>
+          )}
         </div>
       </div>
 
@@ -220,6 +228,8 @@ function NoteCard({ note, userId, likedSet, onLikeToggle, onDownload, onDelete }
           contentId={note._id}
           contentType="Material/File"
           contentTitle={note.title}
+          contentOwnerId={note.user?._id}
+          contentOwnerName={note.user?.fullName}
           onClose={() => setShowReportModal(false)}
           onSuccess={() => {
             // Optional: show success message or update UI
