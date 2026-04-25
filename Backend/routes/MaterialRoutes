@@ -1,0 +1,61 @@
+const express = require("express");
+const router = express.Router();
+const upload = require("../middleware/upload");
+
+const {
+  createMaterial,
+  getMaterials,
+  getMaterialById,
+  deleteMaterial,
+} = require("../controllers/MaterialController");
+
+// ─────────────────────────────────────────────
+// 📌 CREATE MATERIAL (Upload PDF)
+// ─────────────────────────────────────────────
+router.post(
+  "/",
+  upload.single("file"), // 👈 file field name = "file"
+  createMaterial
+);
+
+// ─────────────────────────────────────────────
+// 📌 GET ALL MATERIALS (filter + search + pagination)
+// Example: /?module=DS&year=Year2&search=tree&page=1&limit=10
+// ─────────────────────────────────────────────
+router.get("/", getMaterials);
+
+// ─────────────────────────────────────────────
+// 📌 GET MY MATERIALS (NEW 🔥)
+// frontend → /my?userId=xxxx
+// ─────────────────────────────────────────────
+router.get("/my/:userId", async (req, res) => {
+  try {
+    const Material = require("../models/Material");
+
+    const materials = await Material.find({ user: req.params.userId })
+      .populate("user", "fullName email")
+      .sort({ createdAt: -1 });
+
+    res.json({
+      success: true,
+      data: materials,
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: err.message,
+    });
+  }
+});
+
+// ─────────────────────────────────────────────
+// 📌 GET SINGLE MATERIAL
+// ─────────────────────────────────────────────
+router.get("/:id", getMaterialById);
+
+// ─────────────────────────────────────────────
+// 📌 DELETE MATERIAL
+// ─────────────────────────────────────────────
+router.delete("/:id", deleteMaterial);
+
+module.exports = router;
