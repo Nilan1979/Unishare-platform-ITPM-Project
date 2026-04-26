@@ -54,6 +54,25 @@ const SORT_OPTIONS = [
   { label: "Trending", value: "trending", icon: <TrendingUp size={13} /> },
 ];
 
+const getCurrentUser = () => {
+  try {
+    const rawUser = localStorage.getItem("user");
+    const user = rawUser ? JSON.parse(rawUser) : null;
+
+    return {
+      id: user?._id || user?.id || "guest",
+      name: user?.fullName || user?.name || "Anonymous",
+      year: user?.academicYear || user?.year || "",
+    };
+  } catch {
+    return {
+      id: "guest",
+      name: "Anonymous",
+      year: "",
+    };
+  }
+};
+
 // ── Skeleton placeholder ──────────────────────────────────────────────────────
 function SkeletonThread() {
   return (
@@ -72,14 +91,9 @@ function SkeletonThread() {
 }
 
 // ── Thread card ───────────────────────────────────────────────────────────────
-function ThreadCard({ thread, onReaction, onDelete, onEdit }) {
+function ThreadCard({ thread, onReaction, onDelete, onEdit, currentUser }) {
   const cfg = CATEGORY_CONFIG[thread.category] || CATEGORY_CONFIG["General"];
   const icon = CATEGORY_ICONS[thread.category] || "💬";
-
-  const currentUser = {
-    id: "user123",
-    name: "John Doe",
-  };
 
   const timeAgo = (dateStr) => {
     const diff = Date.now() - new Date(dateStr).getTime();
@@ -381,6 +395,7 @@ export default function Forum() {
   const [activeCategory, setActiveCategory] = useState("All");
   const [activeSort,   setActiveSort]   = useState("latest");
   const [categoryCounts, setCategoryCounts] = useState({});
+  const currentUser = getCurrentUser();
 
   const fetchThreads = async (searchTerm = "", category = "All", sort = "latest") => {
     setLoading(true);
@@ -416,7 +431,11 @@ export default function Forum() {
     const res = await fetch("http://localhost:8000/forum", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(postData),
+      body: JSON.stringify({
+        ...postData,
+        authorName: currentUser.name,
+        authorYear: currentUser.year,
+      }),
     });
     if (!res.ok) throw new Error("Failed to create discussion");
     fetchThreads(query, activeCategory, activeSort);
@@ -577,7 +596,14 @@ export default function Forum() {
             </div>
           ) : (
             threads.map((thread) => (
-              <ThreadCard key={thread._id} thread={thread} onReaction={handleReaction} onDelete={handleDelete} onEdit={handleEdit} />
+              <ThreadCard
+                key={thread._id}
+                thread={thread}
+                onReaction={handleReaction}
+                onDelete={handleDelete}
+                onEdit={handleEdit}
+                currentUser={currentUser}
+              />
             ))
           )}
         </main>
