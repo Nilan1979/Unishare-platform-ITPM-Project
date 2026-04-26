@@ -32,6 +32,7 @@ const CATEGORY_CONFIG = {
   "General":         { color: "#4a3f1a", bg: "#f6f2e8", accent: "#ba7517" },
 };
 
+
 const CATEGORY_ICONS = {
   "Database":         "🗄️",
   "Networking":       "🌐",
