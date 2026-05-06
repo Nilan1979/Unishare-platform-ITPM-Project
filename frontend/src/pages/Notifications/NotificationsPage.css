@@ -1,0 +1,241 @@
+.notifications-page {
+  min-height: 100vh;
+  background: #f6f8fc;
+}
+
+.notifications-shell {
+  max-width: 1200px;
+  margin: 24px auto;
+  padding: 0 16px 24px;
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  gap: 16px;
+}
+
+.notifications-list-panel,
+.notifications-detail-panel {
+  background: #fff;
+  border: 1px solid #e2ebfa;
+  border-radius: 14px;
+  box-shadow: 0 8px 26px rgba(13, 34, 87, 0.08);
+  padding: 14px;
+  min-height: 520px;
+}
+
+.notifications-list-panel {
+  max-height: 520px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #b8c9ea #eef3fd;
+}
+
+.notifications-list-panel::-webkit-scrollbar {
+  width: 8px;
+}
+
+.notifications-list-panel::-webkit-scrollbar-track {
+  background: #eef3fd;
+  border-radius: 10px;
+}
+
+.notifications-list-panel::-webkit-scrollbar-thumb {
+  background: #b8c9ea;
+  border-radius: 10px;
+}
+
+.notifications-list-panel::-webkit-scrollbar-thumb:hover {
+  background: #9bb4e0;
+}
+
+.notifications-panel-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #0d2257;
+  margin-bottom: 10px;
+}
+
+.notifications-empty {
+  color: #8ea0c2;
+  font-size: 0.82rem;
+  padding: 24px 8px;
+}
+
+.notifications-filters,
+.notifications-sub-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.notifications-filter-btn,
+.notifications-sub-filter-btn {
+  border: 1px solid #d8e5fb;
+  background: #f7faff;
+  color: #3b4f78;
+  border-radius: 999px;
+  padding: 6px 11px;
+  font-size: 0.69rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.notifications-filter-btn.type-report,
+.notifications-type.type-report {
+  color: #0b5ed7;
+}
+
+.notifications-filter-btn.type-all,
+.notifications-type.type-all {
+  color: #4f46e5;
+}
+
+.notifications-filter-btn.type-warning,
+.notifications-type.type-warning {
+  color: #b54708;
+}
+
+.notifications-filter-btn.type-message,
+.notifications-type.type-message {
+  color: #027a48;
+}
+
+.notifications-filter-btn.type-default,
+.notifications-type.type-default {
+  color: #3b4f78;
+}
+
+.notifications-filter-btn.active,
+.notifications-sub-filter-btn.active {
+  background: #e8f0fe;
+  border-color: #96b6f4;
+  color: #0d2257;
+}
+
+.notifications-filter-btn.active.type-report {
+  background: #eaf2ff;
+  border-color: #84aef7;
+  color: #0b5ed7;
+}
+
+.notifications-filter-btn.active.type-all {
+  background: #eef2ff;
+  border-color: #a5b4fc;
+  color: #4f46e5;
+}
+
+.notifications-filter-btn.active.type-warning {
+  background: #fff4e5;
+  border-color: #f5c27b;
+  color: #b54708;
+}
+
+.notifications-filter-btn.active.type-message {
+  background: #e9fdf3;
+  border-color: #86efac;
+  color: #027a48;
+}
+
+.notifications-list-item {
+  width: 100%;
+  text-align: left;
+  border: 1px solid #e6eefc;
+  border-radius: 10px;
+  background: #f9fbff;
+  padding: 11px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.notifications-list-item:hover {
+  background: #f0f6ff;
+  border-color: #cfdffd;
+}
+
+.notifications-list-item.active {
+  background: #e8f0fe;
+  border-color: #90b3f6;
+}
+
+.notifications-item-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 5px;
+}
+
+.notifications-type {
+  font-size: 0.68rem;
+  color: #1565c0;
+  font-weight: 700;
+}
+
+.notifications-unread {
+  font-size: 0.63rem;
+  font-weight: 700;
+  color: #b42318;
+  background: #feefef;
+  border: 1px solid #ffd6d6;
+  border-radius: 999px;
+  padding: 2px 7px;
+}
+
+.notifications-item-message {
+  font-size: 0.76rem;
+  color: #0d2257;
+  font-weight: 600;
+  line-height: 1.4;
+  margin-bottom: 4px;
+}
+
+.notifications-item-time {
+  font-size: 0.68rem;
+  color: #8ea0c2;
+}
+
+.notifications-details-card {
+  border: 1px solid #e6eefc;
+  border-radius: 12px;
+  padding: 14px;
+  background: #fbfdff;
+}
+
+.notifications-row {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid #edf2fd;
+}
+
+.notifications-row.block {
+  grid-template-columns: 1fr;
+}
+
+.notifications-row:last-child {
+  border-bottom: none;
+}
+
+.notifications-row span {
+  font-size: 0.72rem;
+  color: #5a6a8a;
+  font-weight: 600;
+}
+
+.notifications-row strong {
+  font-size: 0.79rem;
+  color: #0d2257;
+  line-height: 1.45;
+}
+
+.notifications-row strong.notifications-admin-reporter {
+  color: #b42318;
+  font-weight: 700;
+}
+
+@media (max-width: 960px) {
+  .notifications-shell {
+    grid-template-columns: 1fr;
+  }
+}

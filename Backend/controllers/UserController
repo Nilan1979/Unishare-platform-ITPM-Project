@@ -480,6 +480,9 @@ exports.getUsers = async (req, res) => {
 // GET BY ID
 exports.getUserById = async (req, res) => {
   try {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(404).json({ message: 'User not found' });
+    }
     const user = await User.findById(req.params.id).select('-password');
 
     if (!user) {
@@ -500,6 +503,9 @@ exports.getUserById = async (req, res) => {
 // UPDATE
 exports.updateUser = async (req, res) => {
   try {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(404).json({ message: 'User not found' });
+    }
     const user = await User.findByIdAndUpdate(
       req.params.id,
       req.body,
@@ -527,6 +533,9 @@ exports.updateUser = async (req, res) => {
 // DELETE
 exports.deleteUser = async (req, res) => {
   try {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(404).json({ message: 'User not found' });
+    }
     const user = await User.findByIdAndDelete(req.params.id);
 
     if (!user) {
@@ -990,6 +999,7 @@ exports.sendWarning = async (req, res) => {
 
     const userId = req.params.id;
     const { message, sentByName, sentById, reportId } = req.body;
+    let senderDisplayName = sentByName || 'Admin';
 
     // ─── VALIDATION: Check userId exists ────────────────────────────────
     if (!userId || !mongoose.Types.ObjectId.isValid(userId)) {
@@ -1010,6 +1020,18 @@ exports.sendWarning = async (req, res) => {
     console.log(`📧 Sending warning to user: ${userId}`);
     console.log(`   Message: ${message.substring(0, 50)}...`);
 
+    // If sender is an admin, normalize display name as "Admin".
+    if (sentById && mongoose.Types.ObjectId.isValid(sentById)) {
+      try {
+        const sender = await User.findById(sentById).select('role');
+        if (sender?.role === 'admin') {
+          senderDisplayName = 'Admin';
+        }
+      } catch (senderLookupError) {
+        console.error('Failed to resolve warning sender role:', senderLookupError.message);
+      }
+    }
+
     // ─── DATABASE: Find user ─────────────────────────────────────────────
     const user = await User.findById(userId);
     if (!user) {
@@ -1025,7 +1047,7 @@ exports.sendWarning = async (req, res) => {
       _id: warningId,
       message: message.trim(),
       sentBy: sentById,
-      sentByName: sentByName || 'Admin',
+      sentByName: senderDisplayName,
       sentAt: new Date(),
       isRead: false,
       reportId: reportId,
@@ -1054,7 +1076,7 @@ exports.sendWarning = async (req, res) => {
       message: `You have received a warning: ${message.substring(0, 50)}...`,
       data: {
         warningId: warningId,
-        sentByName: sentByName || 'Admin',
+        sentByName: senderDisplayName,
         fullMessage: message,
       },
       isRead: false,
@@ -1249,5 +1271,43 @@ exports.markAllNotificationsAsRead = async (req, res) => {
     res.status(500).json({
       message: error.message || 'Failed to mark all notifications as read'
     });
+  }
+};
+
+// ═══════════════════════════════════════════════════════════════════════
+// UPDATE PROFILE PICTURE (Authenticated)
+// PUT /api/users/profile-picture (multipart/form-data: profilePicture=<file>)
+// ═══════════════════════════════════════════════════════════════════════
+exports.updateProfilePicture = async (req, res) => {
+  try {
+    const userId = req.userId;
+
+    if (!userId) {
+      return res.status(401).json({ message: "User not authenticated" });
+    }
+
+    if (!req.file?.filename) {
+      return res.status(400).json({ message: "Profile picture file is required" });
+    }
+
+    const baseUrl = `${req.protocol}://${req.get("host")}`;
+    const profilePictureUrl = `${baseUrl}/uploads/${req.file.filename}`;
+
+    const user = await User.findByIdAndUpdate(
+      userId,
+      { profilePicture: profilePictureUrl },
+      { new: true, runValidators: true }
+    ).select("-password");
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json({
+      message: "Profile picture updated successfully",
+      user: user.toSafeObject(),
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message || "Failed to update profile picture" });
   }
 };

@@ -15,6 +15,7 @@ import Feedback          from "./pages/Feedback/Feedback";
 import Forum             from "./pages/Forum/Forum";
 import ForumThread       from "./pages/Forum/ForumThread";
 import About             from "./pages/About/About";
+import NotificationsPage from "./pages/Notifications/NotificationsPage";
 
 // ── User Management ────────────────────────────────────────────────────────
 import Register       from "./pages/UserManagement/Register";
@@ -108,6 +109,9 @@ function App() {
         } />
         <Route path="/about" element={
           <ProtectedRoute><About /></ProtectedRoute>
+        } />
+        <Route path="/notifications" element={
+          <ProtectedRoute><NotificationsPage /></ProtectedRoute>
         } />
 
         {/* User account */}

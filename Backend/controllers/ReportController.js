@@ -20,10 +20,12 @@ exports.createReport = async (req, res) => {
   try {
     // Fetch the reporter's full name (from reportedByUserId, not reportedUserId)
     let reportedByName = req.body.reportedByName || "Unknown User";
+    let isReporterAdmin = false;
     if (req.body.reportedByUserId) {
       try {
-        const reporter = await User.findById(req.body.reportedByUserId).select("fullName");
+        const reporter = await User.findById(req.body.reportedByUserId).select("fullName role");
         reportedByName = reporter ? reporter.fullName : reportedByName;
+        isReporterAdmin = reporter?.role === "admin";
       } catch (err) {
         // Keep the provided reportedByName if user fetch fails
       }
@@ -55,37 +57,9 @@ exports.createReport = async (req, res) => {
     }
 
     const reporterObjectId = normalizeObjectId(reporterId);
-    if (reporterObjectId) {
-      try {
-        const reporterUpdateResult = await User.updateOne(
-          { _id: reporterObjectId },
-          {
-            $push: {
-              notifications: {
-                _id: new mongoose.Types.ObjectId(),
-                type: "report",
-                message: `Your report for "${savedReport.contentTitle}" was submitted.`,
-                data: {
-                  reportId: savedReport._id,
-                  contentId: savedReport.contentId,
-                  contentType: savedReport.contentType,
-                  reason: savedReport.reason,
-                  status: savedReport.status
-                },
-                isRead: false,
-                createdAt: new Date()
-              }
-            }
-          }
-        );
-
-        if (reporterUpdateResult.modifiedCount > 0) {
-          notifiedUserIds.add(reporterObjectId.toString());
-        }
-      } catch (notifyReporterError) {
-        console.error("Failed to notify reporter:", notifyReporterError.message);
-      }
-    }
+    const reporterDisplayName = isReporterAdmin
+      ? "Admin"
+      : (savedReport.reportedByName || savedReport.reportedBy);
 
     if (ownerObjectId) {
       try {
@@ -101,7 +75,12 @@ exports.createReport = async (req, res) => {
                   reportId: savedReport._id,
                   contentId: savedReport.contentId,
                   contentType: savedReport.contentType,
+                  reportedBy: reporterDisplayName,
+                  reportedByUserId: savedReport.reportedByUserId || req.body.reportedByUserId,
+                  reporterId: reporterObjectId,
+                  contentOwnerId: ownerObjectId,
                   reason: savedReport.reason,
+                  description: savedReport.description,
                   status: savedReport.status
                 },
                 isRead: false,
@@ -119,40 +98,45 @@ exports.createReport = async (req, res) => {
       }
     }
 
-    try {
-      const admins = await User.find({ role: "admin" }).select("_id");
-      for (const admin of admins) {
-        const adminId = admin._id.toString();
-        if (notifiedUserIds.has(adminId)) {
-          continue;
-        }
+    if (!isReporterAdmin) {
+      try {
+        const admins = await User.find({ role: "admin" }).select("_id");
+        for (const admin of admins) {
+          const adminId = admin._id.toString();
+          if (notifiedUserIds.has(adminId)) {
+            continue;
+          }
 
-        await User.updateOne(
-          { _id: admin._id },
-          {
-            $push: {
-              notifications: {
-                _id: new mongoose.Types.ObjectId(),
-                type: "report",
-                message: `A new report was submitted for "${savedReport.contentTitle}".`,
-                data: {
-                  reportId: savedReport._id,
-                  contentId: savedReport.contentId,
-                  contentType: savedReport.contentType,
-                  reason: savedReport.reason,
-                  reportedBy: savedReport.reportedByName || savedReport.reportedBy,
-                  contentOwnerId: savedReport.contentOwnerId,
-                  status: savedReport.status
-                },
-                isRead: false,
-                createdAt: new Date()
+          await User.updateOne(
+            { _id: admin._id },
+            {
+              $push: {
+                notifications: {
+                  _id: new mongoose.Types.ObjectId(),
+                  type: "report",
+                  message: `A new report was submitted for "${savedReport.contentTitle}".`,
+                  data: {
+                    reportId: savedReport._id,
+                    contentId: savedReport.contentId,
+                    contentType: savedReport.contentType,
+                    reason: savedReport.reason,
+                    description: savedReport.description,
+                    reportedBy: reporterDisplayName,
+                    reportedByUserId: savedReport.reportedByUserId || req.body.reportedByUserId,
+                    reporterId: reporterObjectId,
+                    contentOwnerId: ownerObjectId || savedReport.contentOwnerId,
+                    status: savedReport.status
+                  },
+                  isRead: false,
+                  createdAt: new Date()
+                }
               }
             }
-          }
-        );
+          );
+        }
+      } catch (notifyAdminError) {
+        console.error("Failed to notify admins:", notifyAdminError.message);
       }
-    } catch (notifyAdminError) {
-      console.error("Failed to notify admins:", notifyAdminError.message);
     }
 
     res.status(201).json({
@@ -181,20 +165,18 @@ exports.getAllReports = async (req, res) => {
       reports.map(async (report) => {
         const reportObj = report.toObject();
         
-        // If reportedByName doesn't exist, fetch from user
-        if (!reportObj.reportedByName) {
+        // Always prefer reporter name from reportedByUserId when available
+        if (reportObj.reportedByUserId) {
           try {
-            if (reportObj.reportedUserId) {
-              const user = await User.findById(reportObj.reportedUserId).select("fullName");
-              reportObj.reportedByName = user?.fullName || reportObj.reportedBy || "Unknown User";
-              console.log(`✅ Found name for user: ${reportObj.reportedByName}`);
-            } else {
-              reportObj.reportedByName = reportObj.reportedBy || "Unknown User";
-            }
+            const user = await User.findById(reportObj.reportedByUserId).select("fullName");
+            reportObj.reportedByName = user?.fullName || reportObj.reportedBy || "Unknown User";
+            console.log(`✅ Found name for user: ${reportObj.reportedByName}`);
           } catch (err) {
             console.error(`❌ Error fetching user:`, err.message);
             reportObj.reportedByName = reportObj.reportedBy || "Unknown User";
           }
+        } else if (!reportObj.reportedByName) {
+          reportObj.reportedByName = reportObj.reportedBy || "Unknown User";
         }
         
         return reportObj;
@@ -226,17 +208,15 @@ exports.getReportsByStudent = async (req, res) => {
       reports.map(async (report) => {
         const reportObj = report.toObject();
         
-        if (!reportObj.reportedByName) {
+        if (reportObj.reportedByUserId) {
           try {
-            if (reportObj.reportedUserId) {
-              const user = await User.findById(reportObj.reportedUserId).select("fullName");
-              reportObj.reportedByName = user?.fullName || reportObj.reportedBy || "Unknown User";
-            } else {
-              reportObj.reportedByName = reportObj.reportedBy || "Unknown User";
-            }
+            const user = await User.findById(reportObj.reportedByUserId).select("fullName");
+            reportObj.reportedByName = user?.fullName || reportObj.reportedBy || "Unknown User";
           } catch (err) {
             reportObj.reportedByName = reportObj.reportedBy || "Unknown User";
           }
+        } else if (!reportObj.reportedByName) {
+          reportObj.reportedByName = reportObj.reportedBy || "Unknown User";
         }
         
         return reportObj;
@@ -308,18 +288,16 @@ exports.getReportById = async (req, res) => {
     
     const reportObj = report.toObject();
     
-    // If reportedByName doesn't exist, fetch from user
-    if (!reportObj.reportedByName) {
+    // Always prefer reporter name from reportedByUserId when available
+    if (reportObj.reportedByUserId) {
       try {
-        if (reportObj.reportedUserId) {
-          const user = await User.findById(reportObj.reportedUserId).select("fullName");
-          reportObj.reportedByName = user?.fullName || reportObj.reportedBy || "Unknown User";
-        } else {
-          reportObj.reportedByName = reportObj.reportedBy || "Unknown User";
-        }
+        const user = await User.findById(reportObj.reportedByUserId).select("fullName");
+        reportObj.reportedByName = user?.fullName || reportObj.reportedBy || "Unknown User";
       } catch (err) {
         reportObj.reportedByName = reportObj.reportedBy || "Unknown User";
       }
+    } else if (!reportObj.reportedByName) {
+      reportObj.reportedByName = reportObj.reportedBy || "Unknown User";
     }
     
     res.json({

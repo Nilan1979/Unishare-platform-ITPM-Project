@@ -21,6 +21,25 @@ const NAV_LINKS = [
   { label: "About",    path: "/about" },
 ];
 
+const canShowNotificationInNavbar = (notification, currentUserId, currentUserRole) => {
+  if (notification?.type !== "report") return true;
+
+  const reporterId = notification?.data?.reportedByUserId || notification?.data?.reporterId;
+  const message = (notification?.message || "").toLowerCase();
+
+  if (
+    currentUserRole === "admin" &&
+    currentUserId &&
+    reporterId &&
+    String(reporterId) === String(currentUserId) &&
+    message.includes("a new report was submitted")
+  ) {
+    return false;
+  }
+
+  return true;
+};
+
 function getInitials(name = "") {
   return name.split(" ").map(w => w[0]).join("").slice(0, 2).toUpperCase() || "?";
 }
@@ -48,6 +67,7 @@ function Navbar() {
   const roleMeta   = ROLE_META[role] ?? ROLE_META.student;
   const displayName = user?.fullName ?? user?.name ?? "User";
   const initials   = getInitials(displayName);
+  const profilePicture = user?.profilePicture || "";
 
   /* ── Close dropdown on outside click ── */
   useEffect(() => {
@@ -91,8 +111,16 @@ function Navbar() {
       });
       if (response.ok) {
         const data = await response.json();
-        setNotifications(data.notifications || []);
-        setUnreadCount(data.unreadCount || 0);
+        const rawNotifications = data.notifications || [];
+        const visibleNotifications = rawNotifications.filter((notification) =>
+          canShowNotificationInNavbar(notification, userId, role)
+        );
+        const sortedNotifications = [...visibleNotifications].sort(
+          (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        );
+
+        setNotifications(sortedNotifications);
+        setUnreadCount(sortedNotifications.filter((notification) => !notification.isRead).length);
       }
     } catch (error) {
       console.error("Failed to fetch notifications:", error);
@@ -290,6 +318,13 @@ function Navbar() {
           display: flex; align-items: center; justify-content: center;
           letter-spacing: 0.5px;
           flex-shrink: 0;
+          overflow: hidden;
+        }
+        .us-nav__avatar img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: block;
         }
 
         .us-nav__user-info { display: flex; flex-direction: column; align-items: flex-start; }
@@ -354,6 +389,13 @@ function Navbar() {
           font-weight: 800;
           display: flex; align-items: center; justify-content: center;
           flex-shrink: 0;
+          overflow: hidden;
+        }
+        .us-nav__drop-avatar img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: block;
         }
         .us-nav__drop-name {
           font-size: 0.88rem;
@@ -627,7 +669,15 @@ function Navbar() {
                           <div 
                             key={notif._id}
                             className={`us-nav__notif-item${notif.isRead ? ' read' : ' unread'}`}
-                            onClick={() => !notif.isRead && handleNotificationRead(notif._id)}
+                            onClick={async () => {
+                              if (!notif.isRead) {
+                                await handleNotificationRead(notif._id);
+                              }
+                              setNotifOpen(false);
+                              navigate("/notifications", {
+                                state: { selectedNotificationId: notif._id },
+                              });
+                            }}
                           >
                             <div className="us-nav__notif-icon">
                               {notif.type === 'warning' && '⚠️'}
@@ -648,6 +698,20 @@ function Navbar() {
                         ))
                       )}
                     </div>
+                    {notifications.length > 0 && (
+                      <div style={{ borderTop: "1px solid #f0f4ff", padding: "10px 14px", background: "#fbfdff" }}>
+                        <button
+                          className="us-nav__notif-mark-all"
+                          style={{ textDecoration: "none", fontWeight: 700 }}
+                          onClick={() => {
+                            setNotifOpen(false);
+                            navigate("/notifications");
+                          }}
+                        >
+                          View full notification list
+                        </button>
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
@@ -664,7 +728,9 @@ function Navbar() {
                   onClick={() => setDropOpen(p => !p)}
                   aria-expanded={dropOpen}
                 >
-                  <div className="us-nav__avatar">{initials}</div>
+                  <div className="us-nav__avatar">
+                    {profilePicture ? <img src={profilePicture} alt="" /> : initials}
+                  </div>
                   <div className="us-nav__user-info">
                     <span className="us-nav__user-name">{displayName}</span>
                     <span
@@ -685,7 +751,9 @@ function Navbar() {
                   <div className="us-nav__dropdown">
                     {/* Header */}
                     <div className="us-nav__drop-header">
-                      <div className="us-nav__drop-avatar">{initials}</div>
+                      <div className="us-nav__drop-avatar">
+                        {profilePicture ? <img src={profilePicture} alt="" /> : initials}
+                      </div>
                       <div style={{ minWidth: 0 }}>
                         <div className="us-nav__drop-name">{displayName}</div>
                         <div className="us-nav__drop-email">{user?.email}</div>

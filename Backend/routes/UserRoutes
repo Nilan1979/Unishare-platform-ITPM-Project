@@ -3,6 +3,7 @@ const router = express.Router();
 
 const userController = require('../controllers/UserController');
 const { verifyToken } = require('../middleware/auth');
+const uploadImage = require("../middleware/uploadImage");
 
 // ════════════════════════════════════════════════════════════════════════
 // 🔴 CRITICAL: Place ALL static routes FIRST, then dynamic routes at END
@@ -41,6 +42,12 @@ router.get('/debug/check-admins', async (req, res) => {
 // PUT STATIC ROUTES - NON-ID ROUTES (protected/authenticated)
 // ──────────────────────────────────────────────────────────────────────
 router.put('/profile', verifyToken, userController.updateProfile);
+router.put(
+  "/profile-picture",
+  verifyToken,
+  uploadImage.single("profilePicture"),
+  userController.updateProfilePicture
+);
 
 // 🔴 CRITICAL: Change password uses /account/change-password to avoid
 // any possible conflict with /:id route matching

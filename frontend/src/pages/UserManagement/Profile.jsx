@@ -131,6 +131,13 @@ export default function Profile() {
           display: flex; align-items: center; justify-content: center;
           box-shadow: 0 6px 20px rgba(21,101,192,0.38);
           position: relative;
+          overflow: hidden;
+        }
+        .prof-avatar-img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: block;
         }
         .prof-avatar-ring::before {
           content: '';
@@ -455,9 +462,13 @@ export default function Profile() {
             {/* Avatar */}
             <div className="prof-avatar-wrap">
               <div className="prof-avatar-ring">
-                <span className="prof-avatar-initials">
-                  {(user.fullName || "U").split(" ").map(n => n[0]).slice(0, 2).join("")}
-                </span>
+                {user?.profilePicture ? (
+                  <img className="prof-avatar-img" src={user.profilePicture} alt="" />
+                ) : (
+                  <span className="prof-avatar-initials">
+                    {(user.fullName || "U").split(" ").map(n => n[0]).slice(0, 2).join("")}
+                  </span>
+                )}
               </div>
               <div className="prof-avatar-dot" />
             </div>

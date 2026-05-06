@@ -11,10 +11,18 @@ import {
 export default function EditProfile() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    fullName: '', email: '', studentId: '', faculty: '', academicYear: '', semester: ''
+    fullName: '',
+    email: '',
+    studentId: '',
+    faculty: '',
+    academicYear: '',
+    semester: '',
+    profilePicture: ''
   });
   const [message, setMessage] = useState({ text: '', type: '' });
   const [loading, setLoading] = useState(false);
+  const [profileFile, setProfileFile] = useState(null);
+  const [profilePreviewUrl, setProfilePreviewUrl] = useState('');
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem('user')) || {};
@@ -24,12 +32,27 @@ export default function EditProfile() {
       studentId: user.studentId || '',
       faculty: user.faculty || 'IT',
       academicYear: user.academicYear || 'Year 1',
-      semester: user.semester || '1'
+      semester: user.semester || '1',
+      profilePicture: user.profilePicture || ''
     });
   }, []);
 
+  useEffect(() => {
+    return () => {
+      if (profilePreviewUrl) URL.revokeObjectURL(profilePreviewUrl);
+    };
+  }, [profilePreviewUrl]);
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleProfileFileChange = (e) => {
+    const file = e.target.files?.[0] || null;
+    setProfileFile(file);
+
+    if (profilePreviewUrl) URL.revokeObjectURL(profilePreviewUrl);
+    setProfilePreviewUrl(file ? URL.createObjectURL(file) : '');
   };
 
   const handleSubmit = async (e) => {
@@ -44,6 +67,20 @@ export default function EditProfile() {
         setTimeout(() => navigate('/login'), 2000);
         setLoading(false);
         return;
+      }
+
+      // Upload profile picture (optional)
+      if (profileFile) {
+        const fd = new FormData();
+        fd.append('profilePicture', profileFile);
+        const picRes = await axios.put('http://localhost:8000/api/users/profile-picture', fd, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        if (picRes?.data?.user) {
+          localStorage.setItem('user', JSON.stringify(picRes.data.user));
+          setFormData((p) => ({ ...p, profilePicture: picRes.data.user.profilePicture || p.profilePicture }));
+        }
       }
 
       const res = await axios.put('http://localhost:8000/api/users/profile',
@@ -75,6 +112,8 @@ export default function EditProfile() {
 
   const initials = (formData.fullName || 'U')
     .split(' ').map(n => n[0]).slice(0, 2).join('');
+
+  const avatarSrc = profilePreviewUrl || formData.profilePicture || '';
 
   return (
     <div>
@@ -123,7 +162,33 @@ export default function EditProfile() {
           box-shadow: 0 4px 20px rgba(21,101,192,0.40);
           font-size: 1.4rem; font-weight: 800; color: white;
           border: 3px solid rgba(255,255,255,0.25);
+          overflow: hidden;
         }
+        .ep-hero-avatar img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: block;
+        }
+        .ep-photo-actions {
+          margin-top: 12px;
+          display: flex;
+          justify-content: center;
+          gap: 10px;
+        }
+        .ep-photo-btn {
+          padding: 7px 12px;
+          border-radius: 999px;
+          border: 1px solid rgba(255,255,255,0.25);
+          background: rgba(255,255,255,0.12);
+          color: rgba(255,255,255,0.92);
+          font-family: 'Poppins', sans-serif;
+          font-size: 0.72rem;
+          font-weight: 700;
+          cursor: pointer;
+          transition: background 0.18s, transform 0.14s;
+        }
+        .ep-photo-btn:hover { background: rgba(255,255,255,0.18); transform: translateY(-1px); }
         .ep-hero-title {
           font-size: 1.25rem; font-weight: 800;
           color: white; margin-bottom: 4px;
@@ -317,9 +382,30 @@ export default function EditProfile() {
         <div className="ep-hero-bg" />
         <div className="ep-hero-overlay" />
         <div className="ep-hero-inner">
-          <div className="ep-hero-avatar">{initials}</div>
+          <div className="ep-hero-avatar">
+            {avatarSrc ? <img src={avatarSrc} alt="" /> : initials}
+          </div>
           <div className="ep-hero-title">Edit Profile</div>
           <div className="ep-hero-sub">Update your academic information</div>
+          <div className="ep-photo-actions">
+            <label className="ep-photo-btn">
+              Change photo
+              <input type="file" accept="image/*" style={{ display: 'none' }} onChange={handleProfileFileChange} />
+            </label>
+            {profileFile && (
+              <button
+                type="button"
+                className="ep-photo-btn"
+                onClick={() => {
+                  setProfileFile(null);
+                  if (profilePreviewUrl) URL.revokeObjectURL(profilePreviewUrl);
+                  setProfilePreviewUrl('');
+                }}
+              >
+                Remove
+              </button>
+            )}
+          </div>
         </div>
       </section>
 

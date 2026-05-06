@@ -438,6 +438,17 @@ function DeleteModal({ target, onClose, onConfirm }) {
 /* ─────────────────────────── REVIEW MODAL ─────────────────────────── */
 function ReviewModal({ report, users, adminId, onClose, onApproveWarn, onApproveDelete, onReject }) {
   const reportedUser = users.find(u => u._id === report.contentOwnerId) || users.find(u => u._id === report.reportedUserId);
+  const reporterUser =
+    users.find(u => u._id === report.reportedByUserId) ||
+    users.find(u => u._id === report.reporterId);
+  const reporterName =
+    report.reportedByName ||
+    report.reportedBy ||
+    reporterUser?.fullName ||
+    reporterUser?.name ||
+    reporterUser?.email ||
+    "Unknown";
+  const isReportedUserAdmin = String(reportedUser?.role || "").toLowerCase() === "admin";
   const [warnMsg, setWarnMsg] = useState("");
   const [action, setAction] = useState(null); // null | 'approve' | 'reject'
 
@@ -464,7 +475,12 @@ function ReviewModal({ report, users, adminId, onClose, onApproveWarn, onApprove
             </div>
             <div className="info-row" style={{ marginBottom: 0 }}>
               <div className="info-icon"><User size={13} /></div>
-              <div><div className="info-label">Reported By</div><div className="info-value" style={{ fontSize: "0.78rem" }}>{report.reportedByName}</div></div>
+              <div>
+                <div className="info-label">Reported By</div>
+                <div className="info-value" style={{ fontSize: "0.78rem" }}>
+                  {reporterName}
+                </div>
+              </div>
             </div>
             <div className="info-row" style={{ marginBottom: 0 }}>
               <div className="info-icon"><Clock size={13} /></div>
@@ -498,7 +514,7 @@ function ReviewModal({ report, users, adminId, onClose, onApproveWarn, onApprove
           <hr className="divider" />
           <div className="action-section-title"><Shield size={12} /> Admin Action</div>
 
-          {action === null && (
+          {!isReportedUserAdmin && action === null && (
             <div style={{ display: "flex", gap: 10 }}>
               <button className="btn btn-success" onClick={() => setAction("approve")} style={{ flex: 1 }}>
                 <CheckCircle size={13} /> Approve Report
@@ -509,15 +525,21 @@ function ReviewModal({ report, users, adminId, onClose, onApproveWarn, onApprove
             </div>
           )}
 
-          {action === "approve" && (
+          {!isReportedUserAdmin && action === "approve" && (
             <div>
               <p style={{ fontSize: "0.75rem", color: "#444", marginBottom: 12, lineHeight: 1.6 }}>
                 Report approved. Choose an action against <strong>{reportedUser?.fullName}</strong>:
               </p>
               <div style={{ display: "flex", gap: 10, marginBottom: 14 }}>
-                <button className="btn btn-warning" style={{ flex: 1 }} onClick={() => setAction("approve-warn")}>
-                  <AlertTriangle size={13} /> Send Warning
-                </button>
+                {!isReportedUserAdmin && (
+                  <button
+                    className="btn btn-warning"
+                    style={{ flex: 1 }}
+                    onClick={() => setAction("approve-warn")}
+                  >
+                    <AlertTriangle size={13} /> Send Warning
+                  </button>
+                )}
                 <button 
                   className="btn btn-danger" 
                   style={{ flex: 1, opacity: adminId === reportedUser?._id ? 0.5 : 1, cursor: adminId === reportedUser?._id ? "not-allowed" : "pointer" }}
@@ -532,7 +554,7 @@ function ReviewModal({ report, users, adminId, onClose, onApproveWarn, onApprove
             </div>
           )}
 
-          {action === "approve-warn" && (
+          {!isReportedUserAdmin && action === "approve-warn" && (
             <div>
               <textarea
                 className="warn-msg"
@@ -552,6 +574,12 @@ function ReviewModal({ report, users, adminId, onClose, onApproveWarn, onApprove
                 </button>
               </div>
             </div>
+          )}
+
+          {isReportedUserAdmin && (
+            <p style={{ fontSize: "0.75rem", color: "#666", lineHeight: 1.6 }}>
+              This report targets an admin account, so moderation actions are hidden.
+            </p>
           )}
         </div>
       </div>
@@ -672,6 +700,10 @@ export default function AdminPanel() {
   const [loading, setLoading] = useState(false);
 
   const showToast = useCallback((msg, type = "success") => setToast({ msg, type }), []);
+  const isAdminUser = useCallback(
+    (userObj) => String(userObj?.role || "").toLowerCase() === "admin",
+    []
+  );
 
   /* ── API calls (fall back to mock on error) ── */
   useEffect(() => {
@@ -739,6 +771,13 @@ export default function AdminPanel() {
   };
 
   const handleApproveWarn = async (reportId, userId, msg) => {
+    const targetUser = users.find((u) => u._id === userId);
+    if (targetUser && isAdminUser(targetUser)) {
+      setReviewTarget(null);
+      showToast("Warning messages cannot be sent to admin accounts.", "danger");
+      return;
+    }
+
     try {
       await axios.patch(`${API}/reports/${reportId}`, { status: "reviewed" }, { headers: authHeader() });
     } catch {}
@@ -783,9 +822,10 @@ export default function AdminPanel() {
   };
 
   /* ── Derived ── */
-  const faculties = [...new Set(users.map(u => u.faculty))];
+  const nonAdminUsers = users.filter((u) => !isAdminUser(u));
+  const faculties = [...new Set(nonAdminUsers.map(u => u.faculty))];
 
-  const filteredUsers = users.filter(u => {
+  const filteredUsers = nonAdminUsers.filter(u => {
     const q = search.toLowerCase();
     const matchQ = !q || u.fullName.toLowerCase().includes(q) || u.studentId.toLowerCase().includes(q) || u.email.toLowerCase().includes(q);
     const matchF = facultyFilter === "all" || u.faculty === facultyFilter;
@@ -801,10 +841,10 @@ export default function AdminPanel() {
 
   /* ── Stats ── */
   const stats = [
-    { icon: <Users size={18} />, label: "Total Users",    value: users.length,                         bg: "#e8f0fe", color: "#1565C0" },
-    { icon: <CheckCircle size={18} />, label: "Active",  value: users.filter(u => u.isActive).length,  bg: "#e6f4f1", color: "#0f6e56" },
+    { icon: <Users size={18} />, label: "Total Users",    value: nonAdminUsers.length,                         bg: "#e8f0fe", color: "#1565C0" },
+    { icon: <CheckCircle size={18} />, label: "Active",  value: nonAdminUsers.filter(u => u.isActive).length,  bg: "#e6f4f1", color: "#0f6e56" },
     { icon: <Flag size={18} />, label: "Pending Reports", value: pendingCount,                          bg: "#fce8ef", color: "#993556" },
-    { icon: <AlertTriangle size={18} />, label: "Warned Users", value: users.filter(u => u.warningCount > 0).length, bg: "#fef9e7", color: "#b7830a" },
+    { icon: <AlertTriangle size={18} />, label: "Warned Users", value: nonAdminUsers.filter(u => u.warningCount > 0).length, bg: "#fef9e7", color: "#b7830a" },
   ];
 
   const adminName = (JSON.parse(localStorage.getItem("user") || "{}")).fullName || "Admin";
@@ -1007,7 +1047,7 @@ export default function AdminPanel() {
                           <th>Content Title</th>
                           <th>Type</th>
                           <th>Reason</th>
-                          <th>Reported By</th>
+                          <th>Reported User</th>
                           <th>Date</th>
                           <th>Status</th>
                           <th>Action</th>
@@ -1025,7 +1065,9 @@ export default function AdminPanel() {
                               </span>
                             </td>
                             <td style={{ fontSize: "0.73rem" }}>{r.reason}</td>
-                            <td style={{ fontSize: "0.73rem" }}>{r.reportedByName}</td>
+                            <td style={{ fontSize: "0.73rem" }}>
+                              {r.reportedUserName || r.contentOwnerName || "Unknown User"}
+                            </td>
                             <td style={{ fontSize: "0.7rem", color: "#aaa" }}>{formattedDate}</td>
                             <td>
                               <span className={`badge ${
