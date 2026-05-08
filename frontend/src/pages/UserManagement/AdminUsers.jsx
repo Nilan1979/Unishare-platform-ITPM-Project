@@ -352,113 +352,134 @@ textarea.warn-msg:focus { border-color: #1565C0; }
   .stat-label { font-size: 0.63rem; }
 }
 @media (max-width: 768px) {
-  .sidebar { width: 0; display: none; position: fixed; left: -200px; }
-  .admin-main { margin-left: 0; }
+  .sidebar { width: 80px; padding-top: 70px; }
+  .admin-main { margin-left: 80px; }
   .stat-row { grid-template-columns: repeat(2,1fr); gap: 8px; }
   .admin-content { padding: 16px 12px; }
   .topbar { padding: 10px 12px; flex-wrap: wrap; gap: 10px; }
-  .topbar-title { font-size: 0.9rem; flex: 1 100%; }
+  .topbar-title { font-size: 0.85rem; flex: 1 100%; }
   .topbar-sub { display: none; }
-  .topbar-actions { width: 100%; display: flex; gap: 8px; }
+  .topbar-actions { width: 100%; display: flex; gap: 6px; }
   .search-wrap { flex: 1; }
-  .search-input { width: 100%; font-size: 0.72rem; padding: 7px 10px 7px 32px; }
-  .search-icon { left: 8px; }
-  .sidebar-logo { padding: 20px 16px; }
-  .sidebar-logo-title { font-size: 1.1rem; }
-  .nav-item { padding: 8px 12px; font-size: 0.75rem; gap: 8px; }
+  .search-input { width: 100%; font-size: 0.7rem; padding: 6px 8px 6px 30px; }
+  .search-icon { left: 6px; }
+  .sidebar-logo { padding: 14px 8px; }
+  .sidebar-logo-title { font-size: 0.8rem; }
+  .sidebar-logo-sub { font-size: 0.48rem; }
+  .nav-item { padding: 8px 6px; font-size: 0; gap: 0; justify-content: center; }
+  .nav-item svg { margin: 0; }
+  .nav-section-label { display: none; }
+  .sidebar-footer { padding: 10px 8px; }
+  .sidebar-admin-chip { flex-direction: column; align-items: center; padding: 8px 4px; }
+  .sidebar-admin-avatar { width: 28px; height: 28px; font-size: 0.55rem; }
+  .sidebar-admin-name { font-size: 0.6rem; text-align: center; }
+  .sidebar-admin-role { display: none; }
+  .btn-logout-side { font-size: 0; padding: 6px 4px; margin-top: 4px; }
+  .btn-logout-side svg { margin: 0; }
   .table-wrap { overflow-x: auto; }
-  th { padding: 8px 10px; font-size: 0.58rem; }
-  td { padding: 8px 10px; font-size: 0.7rem; }
-  .panel-header { padding: 12px 12px; flex-wrap: wrap; gap: 10px; }
-  .panel-title { font-size: 0.73rem; }
+  th { padding: 8px 8px; font-size: 0.56rem; }
+  td { padding: 8px 8px; font-size: 0.68rem; }
+  .panel-header { padding: 12px 10px; flex-wrap: wrap; gap: 8px; }
+  .panel-title { font-size: 0.71rem; }
   .filter-bar { flex-wrap: wrap; gap: 6px; width: 100%; }
-  .filter-select { font-size: 0.65rem; padding: 6px 8px; flex: 1; min-width: 120px; }
-  .btn { padding: 6px 10px; font-size: 0.64rem; }
+  .filter-select { font-size: 0.64rem; padding: 5px 8px; flex: 1; min-width: 100px; }
+  .btn { padding: 6px 10px; font-size: 0.63rem; }
   .stat-card { padding: 12px 10px; }
   .stat-icon { width: 34px; height: 34px; margin-bottom: 8px; }
-  .stat-value { font-size: 1.2rem; }
-  .stat-label { font-size: 0.58rem; }
+  .stat-value { font-size: 1.15rem; }
+  .stat-label { font-size: 0.56rem; }
 }
 @media (max-width: 640px) {
-  .admin-main { margin-left: 0; }
+  .sidebar { width: 70px; }
+  .admin-main { margin-left: 70px; }
   .admin-content { padding: 12px 8px; }
-  .topbar { padding: 8px 8px; }
-  .topbar-title { font-size: 0.85rem; }
+  .topbar { padding: 8px 8px; gap: 8px; }
+  .topbar-title { font-size: 0.78rem; }
   .stat-row { grid-template-columns: 1fr; gap: 8px; }
-  .stat-card { padding: 10px 8px; }
-  .stat-icon { width: 32px; height: 32px; margin-bottom: 6px; }
-  .stat-value { font-size: 1.1rem; }
-  .stat-label { font-size: 0.54rem; }
+  .stat-card { padding: 10px 8px; border-radius: 10px; }
+  .stat-icon { width: 30px; height: 30px; margin-bottom: 6px; }
+  .stat-value { font-size: 1.05rem; }
+  .stat-label { font-size: 0.52rem; }
   .panel-header { padding: 10px 8px; }
-  .panel-title { font-size: 0.68rem; }
+  .panel-title { font-size: 0.66rem; }
   .panel-actions { display: flex; flex-wrap: wrap; gap: 6px; width: 100%; }
   .filter-bar { gap: 4px; }
-  .filter-select { font-size: 0.62rem; padding: 5px 6px; }
-  table { font-size: 0.65rem; }
-  th { padding: 6px 8px; font-size: 0.53rem; }
-  td { padding: 6px 8px; font-size: 0.64rem; }
-  .btn-sm { padding: 4px 8px; font-size: 0.6rem; }
-  .btn { padding: 5px 9px; font-size: 0.6rem; }
-  .modal { max-width: 95vw; border-radius: 14px; }
-  .modal-header { padding: 14px 16px; }
-  .modal-body { padding: 14px 16px; font-size: 0.73rem; }
-  .modal-footer { padding: 10px 16px; }
-  .search-input { font-size: 0.68rem; padding: 6px 8px 6px 28px; }
+  .filter-select { font-size: 0.6rem; padding: 5px 6px; }
+  table { font-size: 0.63rem; }
+  th { padding: 6px 7px; font-size: 0.5rem; }
+  td { padding: 6px 7px; font-size: 0.62rem; }
+  .btn-sm { padding: 4px 8px; font-size: 0.58rem; }
+  .btn { padding: 5px 9px; font-size: 0.58rem; }
+  .modal { max-width: 95vw; border-radius: 12px; }
+  .modal-header { padding: 12px 14px; }
+  .modal-body { padding: 12px 14px; font-size: 0.7rem; }
+  .modal-footer { padding: 8px 14px; }
+  .search-input { font-size: 0.65rem; padding: 5px 7px 5px 26px; }
+  .sidebar-logo-title { font-size: 0.65rem; }
+  .sidebar-admin-avatar { width: 24px; height: 24px; font-size: 0.5rem; }
 }
 @media (max-width: 480px) {
+  .sidebar { width: 60px; padding-top: 60px; }
+  .admin-main { margin-left: 60px; }
   .admin-content { padding: 8px 6px; }
   .topbar { padding: 6px 6px; }
-  .topbar-title { font-size: 0.78rem; }
+  .topbar-title { font-size: 0.72rem; }
   .stat-row { grid-template-columns: 1fr; gap: 6px; }
-  .stat-card { padding: 8px 6px; border-radius: 10px; }
-  .stat-icon { width: 28px; height: 28px; margin-bottom: 4px; }
+  .stat-card { padding: 8px 6px; border-radius: 8px; }
+  .stat-icon { width: 26px; height: 26px; margin-bottom: 4px; }
   .stat-value { font-size: 0.95rem; }
-  .stat-label { font-size: 0.5rem; }
-  .panel { border-radius: 10px; margin-bottom: 12px; }
-  .panel-header { padding: 8px 6px; }
-  .panel-title { font-size: 0.64rem; gap: 4px; }
+  .stat-label { font-size: 0.48rem; }
+  .panel { border-radius: 8px; margin-bottom: 10px; }
+  .panel-header { padding: 8px 6px; gap: 4px; }
+  .panel-title { font-size: 0.6rem; }
   .panel-actions { gap: 4px; }
-  .filter-select { font-size: 0.58rem; padding: 4px 5px; }
-  table { font-size: 0.6rem; }
-  th { padding: 5px 6px; font-size: 0.48rem; }
-  td { padding: 5px 6px; font-size: 0.58rem; }
-  .btn-sm { padding: 3px 6px; font-size: 0.56rem; }
-  .btn { padding: 4px 7px; font-size: 0.56rem; }
-  .modal { max-width: 98vw; border-radius: 12px; }
-  .modal-header { padding: 10px 12px; gap: 8px; }
-  .modal-body { padding: 10px 12px; font-size: 0.68rem; }
+  .filter-select { font-size: 0.56rem; padding: 4px 5px; }
+  table { font-size: 0.58rem; }
+  th { padding: 5px 6px; font-size: 0.46rem; }
+  td { padding: 5px 6px; font-size: 0.56rem; }
+  .btn-sm { padding: 3px 6px; font-size: 0.54rem; }
+  .btn { padding: 4px 7px; font-size: 0.54rem; }
+  .modal { max-width: 98vw; border-radius: 10px; }
+  .modal-header { padding: 10px 12px; gap: 6px; }
+  .modal-body { padding: 10px 12px; font-size: 0.66rem; }
   .modal-footer { padding: 8px 12px; }
-  .modal-title { font-size: 0.85rem; }
+  .modal-title { font-size: 0.8rem; }
   .info-row { gap: 8px; margin-bottom: 10px; }
-  .info-icon { width: 26px; height: 26px; font-size: 0.65rem; }
-  .info-label { font-size: 0.58rem; }
-  .info-value { font-size: 0.75rem; }
-  .search-input { font-size: 0.65rem; padding: 5px 6px 5px 26px; }
-  .action-section-title { font-size: 0.6rem; margin-bottom: 8px; }
-  textarea.warn-msg { font-size: 0.72rem; min-height: 70px; padding: 8px 10px; }
+  .info-icon { width: 24px; height: 24px; font-size: 0.6rem; }
+  .info-label { font-size: 0.54rem; }
+  .info-value { font-size: 0.72rem; }
+  .search-input { font-size: 0.62rem; padding: 4px 6px 4px 24px; }
+  .action-section-title { font-size: 0.56rem; margin-bottom: 8px; }
+  textarea.warn-msg { font-size: 0.7rem; min-height: 70px; padding: 8px 10px; }
+  .sidebar-logo-title { font-size: 0.55rem; }
+  .sidebar-admin-avatar { width: 22px; height: 22px; font-size: 0.48rem; }
 }
 @media (max-width: 360px) {
+  .sidebar { width: 50px; padding-top: 56px; }
+  .admin-main { margin-left: 50px; }
   .admin-content { padding: 4px 4px; }
-  .topbar { padding: 4px 4px; }
-  .topbar-title { font-size: 0.7rem; }
+  .topbar { padding: 4px 4px; gap: 4px; }
+  .topbar-title { font-size: 0.65rem; }
   .stat-row { grid-template-columns: 1fr; gap: 4px; }
-  .stat-card { padding: 6px 4px; border-radius: 8px; }
-  .stat-icon { width: 24px; height: 24px; margin-bottom: 3px; }
-  .stat-value { font-size: 0.85rem; }
-  .stat-label { font-size: 0.46rem; }
+  .stat-card { padding: 6px 4px; border-radius: 6px; }
+  .stat-icon { width: 22px; height: 22px; margin-bottom: 2px; }
+  .stat-value { font-size: 0.8rem; }
+  .stat-label { font-size: 0.44rem; }
   .panel-header { padding: 6px 4px; }
-  .panel-title { font-size: 0.58rem; }
-  table { font-size: 0.55rem; }
-  th { padding: 4px 5px; font-size: 0.45rem; }
-  td { padding: 4px 5px; font-size: 0.52rem; }
-  .btn { padding: 3px 6px; font-size: 0.52rem; }
-  .filter-select { font-size: 0.54rem; padding: 3px 4px; }
-  .modal { max-width: 100vw; border-radius: 10px; }
-  .modal-header { padding: 8px 10px; }
-  .modal-body { padding: 8px 10px; font-size: 0.64rem; }
-  .modal-title { font-size: 0.78rem; }
-  .info-value { font-size: 0.7rem; }
-  .search-input { font-size: 0.6rem; padding: 4px 5px 4px 24px; }
+  .panel-title { font-size: 0.54rem; }
+  table { font-size: 0.54rem; }
+  th { padding: 4px 5px; font-size: 0.42rem; }
+  td { padding: 4px 5px; font-size: 0.5rem; }
+  .btn { padding: 3px 6px; font-size: 0.5rem; }
+  .filter-select { font-size: 0.52rem; padding: 3px 4px; }
+  .modal { max-width: 100vw; border-radius: 8px; }
+  .modal-header { padding: 8px 10px; gap: 4px; }
+  .modal-body { padding: 8px 10px; font-size: 0.6rem; }
+  .modal-title { font-size: 0.72rem; }
+  .info-value { font-size: 0.66rem; }
+  .search-input { font-size: 0.58rem; padding: 3px 5px 3px 20px; }
+  .nav-item svg { width: 14px; height: 14px; }
+  .sidebar-logo-title { font-size: 0.48rem; }
 }
 `;
 
