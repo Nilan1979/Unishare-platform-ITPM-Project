@@ -352,70 +352,113 @@ textarea.warn-msg:focus { border-color: #1565C0; }
   .stat-label { font-size: 0.63rem; }
 }
 @media (max-width: 768px) {
-  .sidebar { width: 180px; padding-top: 60px; }
-  .admin-main { margin-left: 180px; }
-  .stat-row { grid-template-columns: repeat(2,1fr); gap: 10px; }
-  .admin-content { padding: 20px 16px; }
-  .topbar { padding: 12px 16px; flex-wrap: wrap; gap: 12px; }
-  .topbar-title { font-size: 0.95rem; }
-  .search-wrap { width: 100%; }
-  .search-input { width: 100%; }
+  .sidebar { width: 0; display: none; position: fixed; left: -200px; }
+  .admin-main { margin-left: 0; }
+  .stat-row { grid-template-columns: repeat(2,1fr); gap: 8px; }
+  .admin-content { padding: 16px 12px; }
+  .topbar { padding: 10px 12px; flex-wrap: wrap; gap: 10px; }
+  .topbar-title { font-size: 0.9rem; flex: 1 100%; }
+  .topbar-sub { display: none; }
+  .topbar-actions { width: 100%; display: flex; gap: 8px; }
+  .search-wrap { flex: 1; }
+  .search-input { width: 100%; font-size: 0.72rem; padding: 7px 10px 7px 32px; }
+  .search-icon { left: 8px; }
   .sidebar-logo { padding: 20px 16px; }
   .sidebar-logo-title { font-size: 1.1rem; }
   .nav-item { padding: 8px 12px; font-size: 0.75rem; gap: 8px; }
-  .table-wrap { overflow-x: auto; font-size: 0.75rem; }
-  th { padding: 9px 12px; font-size: 0.6rem; }
-  td { padding: 10px 12px; font-size: 0.72rem; }
-  .panel-header { padding: 14px 16px; flex-wrap: wrap; }
+  .table-wrap { overflow-x: auto; }
+  th { padding: 8px 10px; font-size: 0.58rem; }
+  td { padding: 8px 10px; font-size: 0.7rem; }
+  .panel-header { padding: 12px 12px; flex-wrap: wrap; gap: 10px; }
+  .panel-title { font-size: 0.73rem; }
   .filter-bar { flex-wrap: wrap; gap: 6px; width: 100%; }
-  .filter-select { font-size: 0.68rem; padding: 6px 10px; }
-}
-@media (max-width: 640px) {
-  .sidebar { display: none; }
-  .admin-main { margin-left: 0; }
-  .admin-content { padding: 16px 12px; }
-  .topbar { padding: 12px 12px; }
-  .topbar-title { font-size: 0.9rem; }
-  .stat-row { grid-template-columns: repeat(2,1fr); gap: 8px; }
+  .filter-select { font-size: 0.65rem; padding: 6px 8px; flex: 1; min-width: 120px; }
+  .btn { padding: 6px 10px; font-size: 0.64rem; }
   .stat-card { padding: 12px 10px; }
-  .stat-icon { width: 36px; height: 36px; }
+  .stat-icon { width: 34px; height: 34px; margin-bottom: 8px; }
   .stat-value { font-size: 1.2rem; }
   .stat-label { font-size: 0.58rem; }
-  .panel-header { padding: 12px 12px; }
-  .panel-title { font-size: 0.75rem; }
-  .search-input { font-size: 0.72rem; padding: 6px 10px 6px 30px; }
-  table { font-size: 0.7rem; }
-  th { padding: 8px 10px; font-size: 0.55rem; }
-  td { padding: 8px 10px; font-size: 0.68rem; }
-  .btn { padding: 6px 12px; font-size: 0.65rem; }
-  .modal { max-width: 90vw; }
 }
-@media (max-width: 480px) {
+@media (max-width: 640px) {
+  .admin-main { margin-left: 0; }
   .admin-content { padding: 12px 8px; }
+  .topbar { padding: 8px 8px; }
+  .topbar-title { font-size: 0.85rem; }
   .stat-row { grid-template-columns: 1fr; gap: 8px; }
   .stat-card { padding: 10px 8px; }
+  .stat-icon { width: 32px; height: 32px; margin-bottom: 6px; }
   .stat-value { font-size: 1.1rem; }
-  .panel { border-radius: 12px; margin-bottom: 16px; }
-  .table-wrap { border-radius: 12px; overflow-x: auto; }
+  .stat-label { font-size: 0.54rem; }
+  .panel-header { padding: 10px 8px; }
+  .panel-title { font-size: 0.68rem; }
+  .panel-actions { display: flex; flex-wrap: wrap; gap: 6px; width: 100%; }
+  .filter-bar { gap: 4px; }
+  .filter-select { font-size: 0.62rem; padding: 5px 6px; }
   table { font-size: 0.65rem; }
-  th { padding: 6px 8px; font-size: 0.5rem; }
-  td { padding: 6px 8px; font-size: 0.62rem; }
-  .filter-select { font-size: 0.65rem; padding: 5px 8px; }
-  .btn-sm { padding: 4px 10px; font-size: 0.62rem; }
-  .modal { max-width: 95vw; border-radius: 16px; }
-  .modal-body { padding: 16px 14px; }
-  .modal-footer { padding: 12px 14px; }
+  th { padding: 6px 8px; font-size: 0.53rem; }
+  td { padding: 6px 8px; font-size: 0.64rem; }
+  .btn-sm { padding: 4px 8px; font-size: 0.6rem; }
+  .btn { padding: 5px 9px; font-size: 0.6rem; }
+  .modal { max-width: 95vw; border-radius: 14px; }
+  .modal-header { padding: 14px 16px; }
+  .modal-body { padding: 14px 16px; font-size: 0.73rem; }
+  .modal-footer { padding: 10px 16px; }
+  .search-input { font-size: 0.68rem; padding: 6px 8px 6px 28px; }
 }
-@media (max-width: 360px) {
-  .admin-content { padding: 8px 4px; }
+@media (max-width: 480px) {
+  .admin-content { padding: 8px 6px; }
+  .topbar { padding: 6px 6px; }
+  .topbar-title { font-size: 0.78rem; }
   .stat-row { grid-template-columns: 1fr; gap: 6px; }
-  .stat-card { padding: 8px 6px; }
-  .stat-value { font-size: 1rem; }
-  .stat-label { font-size: 0.55rem; }
+  .stat-card { padding: 8px 6px; border-radius: 10px; }
+  .stat-icon { width: 28px; height: 28px; margin-bottom: 4px; }
+  .stat-value { font-size: 0.95rem; }
+  .stat-label { font-size: 0.5rem; }
+  .panel { border-radius: 10px; margin-bottom: 12px; }
+  .panel-header { padding: 8px 6px; }
+  .panel-title { font-size: 0.64rem; gap: 4px; }
+  .panel-actions { gap: 4px; }
+  .filter-select { font-size: 0.58rem; padding: 4px 5px; }
   table { font-size: 0.6rem; }
   th { padding: 5px 6px; font-size: 0.48rem; }
   td { padding: 5px 6px; font-size: 0.58rem; }
-  .btn { padding: 5px 10px; font-size: 0.6rem; }
+  .btn-sm { padding: 3px 6px; font-size: 0.56rem; }
+  .btn { padding: 4px 7px; font-size: 0.56rem; }
+  .modal { max-width: 98vw; border-radius: 12px; }
+  .modal-header { padding: 10px 12px; gap: 8px; }
+  .modal-body { padding: 10px 12px; font-size: 0.68rem; }
+  .modal-footer { padding: 8px 12px; }
+  .modal-title { font-size: 0.85rem; }
+  .info-row { gap: 8px; margin-bottom: 10px; }
+  .info-icon { width: 26px; height: 26px; font-size: 0.65rem; }
+  .info-label { font-size: 0.58rem; }
+  .info-value { font-size: 0.75rem; }
+  .search-input { font-size: 0.65rem; padding: 5px 6px 5px 26px; }
+  .action-section-title { font-size: 0.6rem; margin-bottom: 8px; }
+  textarea.warn-msg { font-size: 0.72rem; min-height: 70px; padding: 8px 10px; }
+}
+@media (max-width: 360px) {
+  .admin-content { padding: 4px 4px; }
+  .topbar { padding: 4px 4px; }
+  .topbar-title { font-size: 0.7rem; }
+  .stat-row { grid-template-columns: 1fr; gap: 4px; }
+  .stat-card { padding: 6px 4px; border-radius: 8px; }
+  .stat-icon { width: 24px; height: 24px; margin-bottom: 3px; }
+  .stat-value { font-size: 0.85rem; }
+  .stat-label { font-size: 0.46rem; }
+  .panel-header { padding: 6px 4px; }
+  .panel-title { font-size: 0.58rem; }
+  table { font-size: 0.55rem; }
+  th { padding: 4px 5px; font-size: 0.45rem; }
+  td { padding: 4px 5px; font-size: 0.52rem; }
+  .btn { padding: 3px 6px; font-size: 0.52rem; }
+  .filter-select { font-size: 0.54rem; padding: 3px 4px; }
+  .modal { max-width: 100vw; border-radius: 10px; }
+  .modal-header { padding: 8px 10px; }
+  .modal-body { padding: 8px 10px; font-size: 0.64rem; }
+  .modal-title { font-size: 0.78rem; }
+  .info-value { font-size: 0.7rem; }
+  .search-input { font-size: 0.6rem; padding: 4px 5px 4px 24px; }
 }
 `;
 
