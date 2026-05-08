@@ -156,6 +156,78 @@ export default function SavedSessions() {
         }
         .ss-remove:hover { background: #993556; color: #fff; border-color: #993556; }
         .ss-remove:disabled { opacity: 0.65; cursor: not-allowed; }
+
+        /* ─────────────────────────────────────────────────────────────
+           COMPREHENSIVE MOBILE RESPONSIVE STYLES
+        ───────────────────────────────────────────────────────────── */
+
+        @media (max-width: 900px) {
+          .ss-wrap { padding: 28px 16px 50px; }
+          .ss-title { font-size: 1.2rem; margin-bottom: 6px; }
+          .ss-sub { font-size: 0.82rem; margin-bottom: 18px; }
+          .ss-grid { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
+          .ss-card { padding: 12px; gap: 8px; }
+          .ss-module { font-size: 0.64rem; padding: 3px 8px; }
+          .ss-heading { font-size: 0.86rem; }
+          .ss-meta { gap: 4px; font-size: 0.72rem; }
+          .ss-remove { font-size: 0.75rem; padding: 7px; gap: 5px; }
+        }
+
+        @media (max-width: 768px) {
+          .ss-wrap { padding: 24px 14px 40px; }
+          .ss-title { font-size: 1.1rem; margin-bottom: 4px; }
+          .ss-sub { font-size: 0.78rem; margin-bottom: 14px; }
+          .ss-notice { font-size: 0.77rem; padding: 8px 11px; margin-bottom: 12px; }
+          .ss-grid { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 10px; }
+          .ss-card { padding: 11px; gap: 7px; border-radius: 12px; }
+          .ss-module { font-size: 0.6rem; padding: 2px 7px; }
+          .ss-heading { font-size: 0.82rem; line-height: 1.3; }
+          .ss-meta { gap: 3px; font-size: 0.68rem; }
+          .ss-meta span { gap: 4px; }
+          .ss-link { font-size: 0.72rem; }
+          .ss-remove { font-size: 0.72rem; padding: 6px; }
+        }
+
+        @media (max-width: 600px) {
+          .ss-wrap { padding: 20px 12px 32px; }
+          .ss-title { font-size: 1rem; margin-bottom: 2px; }
+          .ss-sub { font-size: 0.75rem; margin-bottom: 12px; }
+          .ss-notice { font-size: 0.74rem; padding: 7px 10px; }
+          .ss-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; }
+          .ss-card { padding: 10px; gap: 6px; border-radius: 10px; }
+          .ss-module { font-size: 0.55rem; padding: 2px 6px; }
+          .ss-heading { font-size: 0.78rem; }
+          .ss-meta { gap: 2px; font-size: 0.64rem; }
+          .ss-meta span { gap: 3px; }
+          .ss-link { font-size: 0.68rem; }
+          .ss-remove { font-size: 0.68rem; padding: 5px; gap: 4px; }
+        }
+
+        @media (max-width: 480px) {
+          .ss-wrap { padding: 16px 10px 28px; }
+          .ss-title { font-size: 0.95rem; }
+          .ss-sub { font-size: 0.72rem; margin-bottom: 10px; }
+          .ss-notice { font-size: 0.7rem; padding: 6px 9px; }
+          .ss-grid { grid-template-columns: 1fr; gap: 6px; }
+          .ss-card { padding: 9px; gap: 5px; border-radius: 8px; }
+          .ss-module { font-size: 0.5rem; padding: 1px 5px; }
+          .ss-heading { font-size: 0.75rem; }
+          .ss-meta { gap: 1px; font-size: 0.6rem; }
+          .ss-link { font-size: 0.64rem; }
+          .ss-remove { font-size: 0.64rem; padding: 4px; gap: 3px; }
+          .ss-remove svg { width: 12px; height: 12px; }
+        }
+
+        @media (max-width: 360px) {
+          .ss-wrap { padding: 12px 8px 24px; }
+          .ss-title { font-size: 0.9rem; }
+          .ss-sub { font-size: 0.68rem; }
+          .ss-grid { gap: 4px; }
+          .ss-card { padding: 8px; gap: 4px; }
+          .ss-heading { font-size: 0.72rem; }
+          .ss-meta { font-size: 0.58rem; }
+          .ss-remove { font-size: 0.6rem; padding: 3px; }
+        }
       `}</style>
 
       <Navbar />

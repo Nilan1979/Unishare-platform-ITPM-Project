@@ -604,11 +604,163 @@ body { font-family: 'Poppins', sans-serif; }
   .lib-section-header { padding: 0 20px; }
   .notes-grid         { padding: 0 20px 50px; }
 }
-@media (max-width: 640px) {
-  .lib-controls-bar    { flex-direction: column; align-items: flex-start; }
-  .lib-controls-right  { width: 100%; justify-content: space-between; }
-  .lib-controls-left   { flex-direction: column; align-items: flex-start; gap: 10px; }
-  .lib-hero-chips      { gap: 7px; }
-  .lib-hero-heading    { font-size: 1.8rem; }
-  .lib-search          { max-width: 100%; }
+
+/* ─────────────────────────────────────────────────────────────
+   COMPREHENSIVE MOBILE RESPONSIVE LIBRARY STYLES
+   Breakpoints: 768px, 600px, 480px, 360px
+───────────────────────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  .lib-hero { height: auto; padding: 40px 0; }
+  .lib-hero-bg { opacity: 0.6; }
+  .lib-hero-content { padding: 0 20px; max-width: 100%; }
+  .lib-hero-heading { font-size: 1.8rem; line-height: 1.2; margin-bottom: 8px; }
+  .lib-hero-sub { font-size: 0.9rem; line-height: 1.5; }
+  .lib-hero-chips { gap: 7px; margin-bottom: 20px; }
+  .lib-hero-chip { font-size: 0.76rem; padding: 6px 12px; }
+  .lib-controls-bar { padding: 14px 20px 0; display: flex; flex-wrap: wrap; gap: 10px; }
+  .lib-controls-left { gap: 8px; display: flex; flex-wrap: wrap; }
+  .lib-controls-right { gap: 8px; display: flex; flex-wrap: wrap; }
+  .lib-search { max-width: 100%; height: 36px; border-radius: 24px; }
+  .lib-search input { font-size: 0.82rem; padding: 8px 12px; }
+  .lib-section-header { padding: 0 20px; margin: 16px auto 16px; gap: 10px; }
+  .lib-section-title { font-size: 0.95rem; font-weight: 700; }
+  .notes-grid { padding: 0 20px 40px; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .note-card { border-radius: 12px; }
+  .note-thumb { height: 100px; }
+  .note-thumb-subject { font-size: 0.63rem; padding: 8px 10px; }
+  .note-visibility-badge { font-size: 0.58rem; padding: 2px 8px; top: 8px; left: 8px; }
+  .note-delete-btn { width: 26px; height: 26px; }
+  .note-top { padding: 8px 12px 4px; gap: 8px; }
+  .level-badge { font-size: 0.62rem; padding: 2px 8px; }
+  .pdf-badge { font-size: 0.58rem; padding: 2px 6px; }
+  .note-body { padding: 6px 12px 10px; }
+  .note-title { font-size: 0.82rem; margin-bottom: 3px; }
+  .note-desc { font-size: 0.7rem; margin-bottom: 6px; }
+  .note-stats-row { gap: 8px; margin-bottom: 6px; }
+  .note-like-btn { font-size: 0.68rem; padding: 3px 9px; }
+  .note-stat { font-size: 0.68rem; }
+  .note-info { gap: 10px; font-size: 0.65rem; margin-bottom: 8px; }
+  .note-uploader { font-size: 0.65rem; margin-bottom: 6px; }
+  .note-actions { gap: 6px; margin-top: 8px; }
+  .btn-view, .btn-download, .btn-report { font-size: 0.7rem; padding: 6px; }
+  .lib-toast { right: 12px; top: 50px; max-width: calc(100vw - 24px); font-size: 0.78rem; padding: 10px 12px; }
+  .lib-delete-modal { max-width: 90vw; padding: 28px 24px 20px; }
+  .lib-delete-icon { width: 48px; height: 48px; }
+  .lib-delete-title { font-size: 1rem; }
+  .lib-delete-sub { font-size: 0.78rem; }
+  .upload-modal-inner { max-width: 90vw; max-height: 90vh; }
+  .lib-vis-filter-btn { font-size: 0.75rem; padding: 5px 10px; }
+}
+
+@media (max-width: 600px) {
+  .lib-hero { padding: 32px 0; }
+  .lib-hero-content { padding: 0 16px; }
+  .lib-hero-heading { font-size: 1.5rem; line-height: 1.2; margin-bottom: 6px; }
+  .lib-hero-sub { font-size: 0.83rem; line-height: 1.5; }
+  .lib-hero-chips { gap: 6px; margin-bottom: 16px; }
+  .lib-hero-chip { font-size: 0.7rem; padding: 5px 10px; }
+  .lib-controls-bar { flex-direction: column; padding: 12px 16px 0; gap: 8px; }
+  .lib-controls-left { flex-direction: column; width: 100%; gap: 8px; }
+  .lib-controls-right { flex-direction: column; width: 100%; gap: 8px; }
+  .lib-search { width: 100%; height: 34px; }
+  .lib-search input { font-size: 16px; padding: 7px 10px; min-height: 34px; }
+  .lib-section-header { padding: 0 16px; margin: 14px auto 12px; }
+  .lib-section-title { font-size: 0.9rem; }
+  .notes-grid { padding: 0 16px 32px; grid-template-columns: 1fr; gap: 10px; }
+  .note-card { border-radius: 10px; }
+  .note-thumb { height: 80px; }
+  .note-thumb-subject { font-size: 0.6rem; padding: 6px 8px; }
+  .note-visibility-badge { font-size: 0.55rem; padding: 2px 6px; top: 6px; left: 6px; }
+  .note-delete-btn { width: 24px; height: 24px; font-size: 0.8rem; }
+  .note-top { padding: 7px 10px 3px; gap: 6px; }
+  .level-badge { font-size: 0.58rem; padding: 2px 6px; }
+  .pdf-badge { font-size: 0.55rem; padding: 1px 5px; }
+  .note-body { padding: 5px 10px 8px; }
+  .note-title { font-size: 0.78rem; margin-bottom: 2px; line-height: 1.3; }
+  .note-desc { font-size: 0.67rem; margin-bottom: 5px; line-height: 1.4; }
+  .note-stats-row { gap: 6px; margin-bottom: 4px; }
+  .note-like-btn { font-size: 0.63rem; padding: 2px 8px; gap: 3px; }
+  .note-stat { font-size: 0.63rem; }
+  .note-info { gap: 8px; font-size: 0.6rem; margin-bottom: 6px; }
+  .note-uploader { font-size: 0.6rem; margin-bottom: 4px; }
+  .note-actions { gap: 5px; }
+  .btn-view, .btn-download, .btn-report { font-size: 0.65rem; padding: 5px; gap: 3px; }
+  .lib-toast { right: 8px; left: 8px; top: 45px; font-size: 0.75rem; padding: 9px 10px; }
+  .lib-delete-modal { max-width: 95vw; padding: 24px 20px 18px; }
+  .lib-delete-icon { width: 44px; height: 44px; margin-bottom: 12px; }
+  .lib-delete-title { font-size: 0.95rem; margin-bottom: 6px; }
+  .lib-delete-sub { font-size: 0.74rem; margin-bottom: 18px; }
+  .lib-delete-actions { gap: 8px; }
+  .lib-delete-cancel, .lib-delete-confirm { font-size: 0.7rem; padding: 7px; }
+  .upload-modal-inner { max-width: 95vw; max-height: 95vh; border-radius: 16px; }
+  .lib-vis-filter-btn { font-size: 0.7rem; padding: 4px 8px; gap: 4px; }
+}
+
+@media (max-width: 480px) {
+  .lib-hero { padding: 24px 0; }
+  .lib-hero-content { padding: 0 12px; }
+  .lib-hero-heading { font-size: 1.3rem; line-height: 1.15; margin-bottom: 4px; }
+  .lib-hero-sub { font-size: 0.78rem; line-height: 1.45; }
+  .lib-hero-chips { gap: 5px; margin-bottom: 14px; justify-content: center; }
+  .lib-hero-chip { font-size: 0.65rem; padding: 4px 8px; }
+  .lib-controls-bar { padding: 10px 12px 0; gap: 6px; }
+  .lib-controls-left { gap: 6px; }
+  .lib-search { height: 32px; width: 100%; }
+  .lib-search input { font-size: 16px; padding: 6px 9px; min-height: 32px; }
+  .lib-section-header { padding: 0 12px; margin: 12px auto 10px; gap: 8px; }
+  .lib-section-title { font-size: 0.85rem; }
+  .notes-grid { padding: 0 12px 28px; gap: 8px; }
+  .note-card { border-radius: 8px; }
+  .note-thumb { height: 60px; }
+  .note-thumb-subject { font-size: 0.55rem; padding: 5px 6px; }
+  .note-visibility-badge { font-size: 0.5rem; padding: 1px 5px; top: 5px; left: 5px; gap: 2px; }
+  .note-delete-btn { width: 22px; height: 22px; font-size: 0.65rem; }
+  .note-top { padding: 6px 8px 2px; gap: 4px; }
+  .level-badge { font-size: 0.52rem; padding: 1px 5px; gap: 3px; }
+  .level-dot { width: 4px; height: 4px; }
+  .pdf-badge { font-size: 0.5rem; padding: 1px 4px; }
+  .note-body { padding: 4px 8px 6px; }
+  .note-title { font-size: 0.74rem; margin-bottom: 1px; }
+  .note-desc { font-size: 0.63rem; margin-bottom: 4px; }
+  .note-stats-row { gap: 4px; margin-bottom: 3px; }
+  .note-like-btn { font-size: 0.58rem; padding: 1px 6px; gap: 2px; }
+  .note-stat { font-size: 0.58rem; gap: 2px; }
+  .note-info { gap: 6px; font-size: 0.55rem; margin-bottom: 4px; }
+  .note-info span { gap: 2px; }
+  .note-uploader { font-size: 0.55rem; margin-bottom: 3px; gap: 3px; }
+  .note-actions { gap: 4px; margin-top: 6px; }
+  .btn-view, .btn-download, .btn-report { font-size: 0.6rem; padding: 4px; gap: 2px; }
+  .btn-view svg, .btn-download svg, .btn-report svg { width: 10px; height: 10px; }
+  .lib-toast { right: 6px; left: 6px; top: 40px; font-size: 0.7rem; padding: 8px 9px; }
+  .lib-delete-modal { max-width: 98vw; padding: 20px 16px 16px; }
+  .lib-delete-icon { width: 40px; height: 40px; margin-bottom: 10px; font-size: 1.4rem; }
+  .lib-delete-title { font-size: 0.9rem; margin-bottom: 4px; }
+  .lib-delete-sub { font-size: 0.7rem; margin-bottom: 16px; }
+  .lib-delete-actions { gap: 6px; }
+  .lib-delete-cancel, .lib-delete-confirm { font-size: 0.65rem; padding: 6px; }
+  .upload-modal-inner { max-width: 98vw; max-height: 98vh; border-radius: 12px; }
+  .lib-vis-filter-btn { font-size: 0.65rem; padding: 3px 6px; gap: 2px; }
+}
+
+@media (max-width: 360px) {
+  .lib-hero { padding: 20px 0; }
+  .lib-hero-content { padding: 0 10px; }
+  .lib-hero-heading { font-size: 1.15rem; margin-bottom: 2px; }
+  .lib-hero-sub { font-size: 0.73rem; }
+  .lib-hero-chips { gap: 4px; margin-bottom: 12px; }
+  .lib-hero-chip { font-size: 0.6rem; padding: 3px 6px; }
+  .lib-controls-bar { padding: 8px 10px 0; }
+  .lib-search input { font-size: 16px; }
+  .lib-section-header { padding: 0 10px; margin: 10px auto 8px; }
+  .lib-section-title { font-size: 0.8rem; }
+  .notes-grid { padding: 0 10px 24px; gap: 6px; }
+  .note-card { border-radius: 6px; }
+  .note-thumb { height: 50px; }
+  .note-thumb-subject { font-size: 0.5rem; padding: 4px 5px; }
+  .note-body { padding: 3px 6px 5px; }
+  .note-title { font-size: 0.7rem; }
+  .note-desc { font-size: 0.6rem; }
+  .note-actions { gap: 3px; }
+  .btn-view, .btn-download, .btn-report { font-size: 0.55rem; padding: 3px; }
 }

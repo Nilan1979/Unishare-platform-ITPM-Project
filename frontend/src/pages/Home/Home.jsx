@@ -375,6 +375,191 @@ function Home() {
           pointer-events: all;
         }
         .section-lock-gate__btn:hover { transform: translateY(-1px); }
+
+        /* ─────────────────────────────────────────────────────────────
+           COMPREHENSIVE MOBILE RESPONSIVE STYLES
+        ───────────────────────────────────────────────────────────── */
+
+        /* ── TABLET (768px - 900px) ── */
+        @media (max-width: 900px) {
+          .hero { height: 420px; }
+          .hero-content { padding: 0 40px; max-width: 480px; }
+          .hero-content h1 { font-size: 2.4rem; }
+          .feature-highlight { padding: 60px 40px; }
+          .feature-highlight h2 { font-size: 1.6rem; }
+          .why-section { padding: 60px 40px; }
+          .why-left h2 { font-size: 1.6rem; }
+          .courses { padding: 60px 40px; }
+        }
+
+        /* ── SMALL TABLET / MOBILE LANDSCAPE (600px - 768px) ── */
+        @media (max-width: 768px) {
+          .hero { height: 360px; }
+          .hero-content { padding: 0 30px; max-width: 100%; }
+          .hero-content h1 { font-size: 2rem; line-height: 1.2; }
+          .hero-content p { font-size: 0.9rem; margin-bottom: 18px; }
+          .hero-search { max-width: 100%; }
+          .hero-guest-banner { max-width: 100%; }
+          
+          .courses { padding: 50px 30px; }
+          .courses h2 { font-size: 1.5rem; margin-bottom: 6px; }
+          .courses > p { font-size: 0.9rem; margin-bottom: 36px; }
+          .course-grid { gap: 16px; }
+          .course-card { padding: 20px 16px; }
+          .card-icon { width: 40px; height: 40px; }
+          .card-header h3 { font-size: 0.95rem; }
+          .course-card p { font-size: 0.8rem; }
+          
+          .feature-highlight { padding: 50px 30px; }
+          .feature-highlight h2 { font-size: 1.4rem; }
+          .feature-highlight .section-sub { font-size: 0.88rem; margin-bottom: 40px; }
+          .highlight-grid { gap: 20px; }
+          .highlight-card { padding: 24px 20px; }
+          .highlight-card h3 { font-size: 1.1rem; }
+          .highlight-card p { font-size: 0.84rem; margin-bottom: 16px; }
+          
+          .why-section { padding: 50px 30px; gap: 40px; }
+          .why-left h2 { font-size: 1.4rem; }
+          .why-left p { font-size: 0.88rem; }
+          .why-list { gap: 12px; }
+          .why-item { padding: 14px 16px; }
+          .why-item-text strong { font-size: 0.85rem; }
+          .why-item-text span { font-size: 0.78rem; }
+          
+          .stat-card { padding: 24px 16px; }
+          .stat-card .stat-num { font-size: 1.8rem; }
+        }
+
+        /* ── MOBILE (480px - 600px) ── */
+        @media (max-width: 600px) {
+          body, html { -webkit-text-size-adjust: 100%; }
+          
+          .hero { height: 320px; }
+          .hero-overlay {
+            background: linear-gradient(135deg,
+              rgba(240,246,255,0.95) 0%, rgba(220,235,255,0.85) 50%,
+              rgba(200,220,255,0.20) 100%);
+          }
+          .hero-content { padding: 0 20px; }
+          .hero-content h1 { font-size: 1.6rem; margin-bottom: 10px; }
+          .hero-content p { font-size: 0.85rem; margin-bottom: 16px; }
+          .hero-search { flex-direction: column; gap: 8px; }
+          .hero-search input { width: 100%; }
+          .hero-guest-banner { flex-direction: column; text-align: center; max-width: 100%; }
+          
+          .courses { padding: 40px 20px; }
+          .courses h2 { font-size: 1.3rem; }
+          .courses > p { font-size: 0.85rem; margin-bottom: 28px; }
+          .course-grid { grid-template-columns: 1fr; gap: 12px; }
+          .course-card { padding: 18px 14px; }
+          .card-header { gap: 10px; }
+          .card-icon { width: 36px; height: 36px; }
+          .card-header h3 { font-size: 0.9rem; }
+          .course-card p { font-size: 0.78rem; }
+          .course-card button { padding: 6px 14px; font-size: 0.78rem; }
+          
+          .feature-highlight { padding: 40px 20px; }
+          .feature-highlight .section-label { font-size: 0.7rem; padding: 5px 12px; }
+          .feature-highlight h2 { font-size: 1.25rem; margin-bottom: 10px; }
+          .feature-highlight .section-sub { font-size: 0.85rem; margin-bottom: 30px; max-width: 100%; }
+          .highlight-grid { gap: 16px; }
+          .highlight-card { padding: 20px 16px; }
+          .highlight-card h3 { font-size: 1rem; margin-bottom: 8px; }
+          .highlight-card p { font-size: 0.82rem; margin-bottom: 14px; }
+          .hc-badge { font-size: 0.7rem; }
+          .hc-step { gap: 10px; }
+          .hc-step-icon { width: 28px; height: 28px; }
+          .hc-step-text strong { font-size: 0.8rem; }
+          .hc-step-text span { font-size: 0.75rem; }
+          .hc-cta { padding: 8px 16px; font-size: 0.75rem; margin-top: 14px; }
+          
+          .why-section { padding: 40px 20px; gap: 32px; }
+          .why-left .tag { font-size: 0.7rem; }
+          .why-left h2 { font-size: 1.25rem; }
+          .why-left p { font-size: 0.85rem; margin-bottom: 24px; }
+          .why-list { gap: 10px; }
+          .why-item { padding: 12px 14px; gap: 12px; }
+          .why-item-icon { width: 36px; height: 36px; }
+          .why-item-text strong { font-size: 0.8rem; }
+          .why-item-text span { font-size: 0.75rem; }
+          .why-right { grid-template-columns: 1fr 1fr; gap: 12px; }
+          .stat-card { padding: 20px 12px; }
+          .stat-card .stat-num { font-size: 1.6rem; }
+          .stat-card .stat-label { font-size: 0.75rem; }
+        }
+
+        /* ── SMALL MOBILE (max-width: 480px) ── */
+        @media (max-width: 480px) {
+          .hero { height: 280px; }
+          .hero-content { padding: 0 16px; }
+          .hero-content h1 { font-size: 1.35rem; margin-bottom: 8px; line-height: 1.25; }
+          .hero-content p { font-size: 0.8rem; margin-bottom: 14px; line-height: 1.5; }
+          .hero-search input::placeholder { font-size: 0.75rem; }
+          .hero-guest-banner p { font-size: 0.78rem; }
+          
+          .courses { padding: 32px 16px; }
+          .courses h2 { font-size: 1.15rem; }
+          .courses > p { font-size: 0.8rem; margin-bottom: 20px; }
+          .course-grid { gap: 10px; }
+          .course-card { padding: 14px 12px; }
+          .card-header { gap: 8px; }
+          .card-icon { width: 32px; height: 32px; font-size: 0.8rem; }
+          .card-header h3 { font-size: 0.85rem; }
+          .course-card p { font-size: 0.75rem; }
+          .course-card button { padding: 5px 12px; font-size: 0.7rem; }
+          
+          .feature-highlight { padding: 32px 16px; }
+          .feature-highlight h2 { font-size: 1.15rem; }
+          .feature-highlight .section-sub { font-size: 0.8rem; margin-bottom: 24px; }
+          .highlight-grid { gap: 12px; }
+          .highlight-card { padding: 16px 12px; }
+          .highlight-card h3 { font-size: 0.95rem; margin-bottom: 6px; }
+          .highlight-card p { font-size: 0.78rem; margin-bottom: 12px; }
+          .hc-step-icon { width: 24px; height: 24px; }
+          .hc-step-text strong { font-size: 0.75rem; }
+          .hc-step-text span { font-size: 0.7rem; }
+          .hc-cta { padding: 6px 12px; font-size: 0.7rem; }
+          
+          .why-section { padding: 32px 16px; gap: 24px; }
+          .why-left h2 { font-size: 1.15rem; }
+          .why-left p { font-size: 0.8rem; margin-bottom: 18px; }
+          .why-item { padding: 10px 12px; gap: 10px; }
+          .why-item-icon { width: 32px; height: 32px; }
+          .why-item-text strong { font-size: 0.75rem; }
+          .why-item-text span { font-size: 0.7rem; }
+          .why-right { gap: 10px; }
+          .stat-card { padding: 16px 10px; }
+          .stat-card .stat-num { font-size: 1.4rem; margin-bottom: 4px; }
+          .stat-card .stat-label { font-size: 0.7rem; }
+          
+          .section-label { font-size: 0.65rem; }
+          .section-lock-gate__text { font-size: 0.9rem; }
+          .section-lock-gate__btn { padding: 8px 20px; font-size: 0.8rem; }
+        }
+
+        /* ── EXTRA SMALL MOBILE (max-width: 360px) ── */
+        @media (max-width: 360px) {
+          .hero { height: 240px; }
+          .hero-content { padding: 0 12px; }
+          .hero-content h1 { font-size: 1.2rem; }
+          .hero-content p { font-size: 0.75rem; }
+          
+          .courses { padding: 24px 12px; }
+          .courses h2 { font-size: 1rem; }
+          .courses > p { font-size: 0.75rem; margin-bottom: 16px; }
+          .course-card { padding: 12px 10px; }
+          .card-icon { width: 28px; height: 28px; }
+          .course-card button { padding: 4px 10px; font-size: 0.65rem; }
+          
+          .feature-highlight { padding: 24px 12px; }
+          .feature-highlight h2 { font-size: 1rem; }
+          .highlight-card { padding: 12px 10px; }
+          .highlight-card h3 { font-size: 0.85rem; }
+          
+          .why-section { padding: 24px 12px; }
+          .why-left h2 { font-size: 1rem; }
+          .stat-card .stat-num { font-size: 1.2rem; }
+        }
       `}</style>
 
       <Navbar />

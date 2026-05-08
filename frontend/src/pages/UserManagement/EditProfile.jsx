@@ -365,13 +365,113 @@ export default function EditProfile() {
         }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        @media (max-width: 600px) {
+        /* ══════════════════════════════════════
+           RESPONSIVE
+        ══════════════════════════════════════ */
+        @media (max-width: 1024px) {
+          .ep-wrap { padding: 0 28px; }
+          .ep-card { border-radius: 18px; }
+          .ep-hero { min-height: 200px; }
+          .ep-hero-inner { padding: 36px 20px 56px; }
+        }
+        
+        @media (max-width: 900px) {
+          .ep-wrap { padding: 0 24px; }
+          .ep-hero { min-height: 190px; }
+          .ep-hero-inner { padding: 32px 20px 52px; }
+          .ep-hero-title { font-size: 1.15rem; }
           .ep-row { grid-template-columns: 1fr; }
-          .ep-form-body { padding: 16px 20px 24px; }
+          .ep-label { font-size: 0.68rem; }
+          .ep-input { font-size: 0.82rem; padding: 9px 12px; }
+          .ep-form-body { padding: 18px 24px 24px; }
+        }
+        
+        @media (max-width: 768px) {
+          .ep-wrap { padding: 0 20px; margin: -32px auto 50px; }
+          .ep-hero { min-height: 180px; }
+          .ep-hero-inner { padding: 28px 16px 48px; }
+          .ep-hero-avatar { width: 64px; height: 64px; margin-bottom: 12px; }
+          .ep-hero-title { font-size: 1.1rem; margin-bottom: 3px; }
+          .ep-hero-sub { font-size: 0.74rem; }
+          .ep-photo-actions { gap: 8px; margin-top: 10px; }
+          .ep-photo-btn { padding: 6px 10px; font-size: 0.68rem; }
+          .ep-card { border-radius: 16px; padding: 0; }
+          .ep-row { grid-template-columns: 1fr; gap: 14px; }
+          .ep-form-body { padding: 16px 20px 22px; }
           .ep-section { padding: 18px 20px 0; }
+          .ep-section-label { font-size: 0.66rem; padding: 4px 11px; margin-bottom: 14px; }
           .ep-divider { margin: 6px 20px 0; }
-          .ep-actions { padding: 16px 20px; }
-          .ep-alert { margin: 0 20px 16px; }
+          .ep-label { font-size: 0.66rem; gap: 5px; }
+          .ep-input { font-size: 0.8rem; padding: 9px 12px; }
+          .ep-actions { padding: 16px 20px; gap: 10px; }
+          .btn-cancel { font-size: 0.78rem; padding: 10px; }
+          .btn-save { font-size: 0.78rem; padding: 10px; }
+          .ep-alert { margin: 0 20px 16px; padding: 10px 14px; font-size: 0.76rem; }
+          .ep-back { font-size: 0.74rem; margin-bottom: 12px; }
+        }
+        
+        @media (max-width: 640px) {
+          .ep-wrap { padding: 0 16px; margin: -30px auto 40px; }
+          .ep-hero { min-height: 170px; padding-top: 32px; }
+          .ep-hero-inner { padding: 24px 12px 44px; }
+          .ep-hero-avatar { width: 56px; height: 56px; font-size: 1.2rem; }
+          .ep-hero-title { font-size: 1rem; }
+          .ep-hero-sub { font-size: 0.72rem; }
+          .ep-photo-btn { padding: 5px 9px; font-size: 0.65rem; }
+          .ep-card { border-radius: 14px; }
+          .ep-form-body { padding: 14px 16px 20px; }
+          .ep-section { padding: 14px 16px 0; }
+          .ep-divider { margin: 5px 16px 0; }
+          .ep-input { font-size: 0.78rem; padding: 8px 11px; }
+          .ep-label { font-size: 0.64rem; }
+          .ep-actions { padding: 12px 16px; }
+          .btn-cancel, .btn-save { font-size: 0.75rem; padding: 9px; }
+          .ep-alert { margin: 0 16px 14px; padding: 9px 12px; font-size: 0.72rem; }
+          .ep-back { font-size: 0.72rem; }
+        }
+        
+        @media (max-width: 480px) {
+          .ep-wrap { padding: 0 12px; margin: -28px auto 32px; }
+          .ep-hero { min-height: 160px; padding-top: 24px; }
+          .ep-hero-inner { padding: 20px 8px 40px; }
+          .ep-hero-avatar { width: 48px; height: 48px; font-size: 1.05rem; margin-bottom: 10px; }
+          .ep-hero-title { font-size: 0.95rem; }
+          .ep-hero-sub { font-size: 0.68rem; }
+          .ep-photo-actions { gap: 6px; margin-top: 8px; }
+          .ep-photo-btn { padding: 4px 8px; font-size: 0.62rem; }
+          .ep-card { border-radius: 12px; }
+          .ep-form-body { padding: 12px 14px 18px; }
+          .ep-section { padding: 12px 14px 0; }
+          .ep-section-label { font-size: 0.62rem; padding: 3px 9px; margin-bottom: 12px; }
+          .ep-row { gap: 12px; }
+          .ep-input { font-size: 0.75rem; padding: 7px 10px; }
+          .ep-label { font-size: 0.6rem; gap: 4px; }
+          .ep-actions { padding: 10px 14px; }
+          .btn-cancel { font-size: 0.72rem; padding: 8px; }
+          .btn-save { font-size: 0.72rem; padding: 8px; }
+          .ep-alert { margin: 0 14px 12px; padding: 8px 10px; font-size: 0.7rem; }
+          .ep-back { font-size: 0.68rem; margin-bottom: 10px; }
+        }
+        
+        @media (max-width: 360px) {
+          .ep-wrap { padding: 0 8px; margin: -26px auto 24px; }
+          .ep-hero { min-height: 150px; padding-top: 16px; }
+          .ep-hero-inner { padding: 16px 4px 36px; }
+          .ep-hero-avatar { width: 42px; height: 42px; font-size: 0.9rem; }
+          .ep-hero-title { font-size: 0.9rem; }
+          .ep-hero-sub { font-size: 0.65rem; }
+          .ep-photo-btn { padding: 3px 6px; font-size: 0.58rem; }
+          .ep-card { border-radius: 10px; }
+          .ep-form-body { padding: 10px 12px 14px; }
+          .ep-section { padding: 10px 12px 0; }
+          .ep-divider { margin: 4px 12px 0; }
+          .ep-input { font-size: 0.72rem; padding: 6px 9px; }
+          .ep-label { font-size: 0.58rem; }
+          .ep-actions { padding: 8px 12px; }
+          .btn-cancel { font-size: 0.68rem; padding: 6px; }
+          .btn-save { font-size: 0.68rem; padding: 6px; }
+          .ep-alert { margin: 0 12px 10px; padding: 7px 9px; font-size: 0.65rem; }
+          .ep-back { font-size: 0.65rem; margin-bottom: 8px; }
         }
       `}</style>
 

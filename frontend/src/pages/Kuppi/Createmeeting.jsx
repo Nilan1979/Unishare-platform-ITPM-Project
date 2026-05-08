@@ -282,8 +282,100 @@ export default function CreateMeeting() {
         }
         .cm-row-2 { grid-template-columns: 1fr 1fr; }
         .cm-row-3 { grid-template-columns: 1fr 1fr 1fr; }
-        @media (max-width: 560px) {
+
+        /* ─────────────────────────────────────────────────────────────
+           COMPREHENSIVE MOBILE RESPONSIVE STYLES
+        ───────────────────────────────────────────────────────────── */
+
+        @media (max-width: 900px) {
+          .cm-hero { padding: 50px 40px 60px; }
+          .cm-hero-bio { max-width: 500px; padding: 20px 24px; }
+          .cm-hero-bio-heading { font-size: 1.3rem; }
+          .cm-hero-bio-text { font-size: 0.82rem; }
+          .cm-form-wrap { padding: 36px 40px 60px; }
+          .cm-form-title { font-size: 0.95rem; }
+          .cm-section-label { font-size: 0.75rem; }
+          .cm-row-2, .cm-row-3 { grid-template-columns: repeat(2, 1fr); }
+          .cm-input, .cm-textarea, .cm-select { font-size: 0.82rem; padding: 8px 12px; }
+          .cm-actions { padding: 0 40px 36px; gap: 10px; }
+          .cm-btn-cancel, .cm-btn-submit { font-size: 0.8rem; padding: 8px 16px; }
+        }
+
+        @media (max-width: 768px) {
+          .cm-hero { padding: 40px 24px 50px; min-height: 260px; }
+          .cm-hero-bio { max-width: 100%; padding: 18px 20px; }
+          .cm-hero-bio-heading { font-size: 1.15rem; }
+          .cm-hero-bio-text { font-size: 0.78rem; }
+          .cm-form-wrap { padding: 28px 20px 50px; }
+          .cm-form-title { font-size: 0.9rem; }
+          .cm-section-label { font-size: 0.7rem; padding: 4px 10px; }
+          .cm-row { gap: 12px; }
           .cm-row-2, .cm-row-3 { grid-template-columns: 1fr; }
+          .cm-input, .cm-textarea, .cm-select { font-size: 0.8rem; padding: 7px 11px; height: 34px; }
+          .cm-textarea { min-height: 80px; }
+          .cm-form-label { font-size: 0.73rem; margin-top: 6px; }
+          .cm-form-error { font-size: 0.68rem; }
+          .cm-actions { padding: 0 20px 28px; flex-wrap: wrap; }
+          .cm-btn-cancel, .cm-btn-submit { font-size: 0.77rem; padding: 7px 14px; }
+          .cm-success { padding: 50px 24px; }
+          .cm-success-icon { width: 56px; height: 56px; font-size: 1.8rem; }
+          .cm-success-text { font-size: 1rem; }
+          .cm-success-sub { font-size: 0.78rem; }
+        }
+
+        @media (max-width: 600px) {
+          .cm-hero { padding: 32px 16px 42px; min-height: 240px; }
+          .cm-hero-bio { padding: 14px 16px; }
+          .cm-hero-bio-heading { font-size: 1rem; }
+          .cm-hero-bio-text { font-size: 0.75rem; }
+          .cm-form-wrap { padding: 24px 16px 42px; }
+          .cm-form-title { font-size: 0.85rem; }
+          .cm-section-label { font-size: 0.65rem; padding: 3px 8px; }
+          .cm-row { gap: 10px; }
+          .cm-input, .cm-textarea, .cm-select { font-size: 16px; padding: 7px 10px; height: 36px; min-height: 36px; }
+          .cm-textarea { min-height: 80px; }
+          .cm-form-label { font-size: 0.7rem; margin-top: 5px; }
+          .cm-form-error { font-size: 0.65rem; }
+          .cm-actions { padding: 0 16px 24px; gap: 8px; justify-content: stretch; }
+          .cm-btn-cancel, .cm-btn-submit { flex: 1; font-size: 0.75rem; padding: 6px 12px; }
+          .cm-success { padding: 42px 20px; }
+          .cm-success-icon { width: 48px; height: 48px; font-size: 1.5rem; margin-bottom: 8px; }
+          .cm-success-text { font-size: 0.95rem; margin-bottom: 4px; }
+          .cm-success-sub { font-size: 0.75rem; }
+        }
+
+        @media (max-width: 480px) {
+          .cm-hero { padding: 24px 12px 36px; min-height: 220px; }
+          .cm-hero-bio { padding: 12px 14px; margin-bottom: 12px; }
+          .cm-hero-bio-heading { font-size: 0.95rem; }
+          .cm-hero-bio-text { font-size: 0.72rem; }
+          .cm-form-wrap { padding: 20px 12px 36px; }
+          .cm-form-title { font-size: 0.8rem; }
+          .cm-section-label { font-size: 0.6rem; padding: 2px 6px; }
+          .cm-row, .cm-row-2, .cm-row-3 { grid-template-columns: 1fr; gap: 8px; }
+          .cm-input, .cm-textarea, .cm-select { font-size: 16px; padding: 6px 9px; height: 34px; }
+          .cm-textarea { min-height: 72px; }
+          .cm-form-label { font-size: 0.65rem; margin-top: 4px; }
+          .cm-form-error { font-size: 0.6rem; }
+          .cm-actions { padding: 0 12px 20px; gap: 6px; }
+          .cm-btn-cancel, .cm-btn-submit { font-size: 0.7rem; padding: 5px 10px; gap: 4px; }
+          .cm-success { padding: 36px 16px; }
+          .cm-success-icon { width: 44px; height: 44px; font-size: 1.3rem; margin-bottom: 6px; }
+          .cm-success-text { font-size: 0.9rem; }
+          .cm-success-sub { font-size: 0.7rem; line-height: 1.4; }
+        }
+
+        @media (max-width: 360px) {
+          .cm-hero { padding: 20px 10px 32px; }
+          .cm-hero-bio { padding: 10px 12px; }
+          .cm-hero-bio-heading { font-size: 0.9rem; }
+          .cm-form-wrap { padding: 16px 10px 32px; }
+          .cm-form-title { font-size: 0.75rem; }
+          .cm-input, .cm-textarea, .cm-select { font-size: 16px; padding: 5px 8px; }
+          .cm-actions { padding: 0 10px 16px; }
+          .cm-btn-cancel, .cm-btn-submit { font-size: 0.65rem; padding: 4px 8px; }
+          .cm-success { padding: 32px 12px; }
+          .cm-success-icon { width: 40px; height: 40px; font-size: 1.1rem; }
         }
 
         /* ── DIVIDER ── */

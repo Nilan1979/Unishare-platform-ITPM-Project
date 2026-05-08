@@ -426,6 +426,174 @@ export default function Footer() {
           .us-footer-inner { grid-template-columns: 1fr; padding: 40px 24px 24px; }
         }
 
+        /* ─────────────────────────────────────────────────────────────
+           MOBILE RESPONSIVE FOOTER STYLES
+        ───────────────────────────────────────────────────────────── */
+
+        @media (max-width: 768px) {
+          .us-footer-inner {
+            padding: 48px 30px 28px;
+            gap: 32px;
+          }
+          .us-brand-logo span {
+            font-size: 1.2rem;
+          }
+          .us-brand-desc {
+            font-size: 0.8rem;
+            max-width: 240px;
+            margin-bottom: 24px;
+          }
+          .us-col h4 {
+            font-size: 0.7rem;
+            margin-bottom: 16px;
+          }
+          .us-col ul {
+            gap: 10px;
+          }
+          .us-col ul li a {
+            font-size: 0.82rem;
+          }
+          .us-link-btn {
+            font-size: 0.82rem;
+          }
+          .us-feedback-btn {
+            font-size: 0.78rem;
+            padding: 8px 18px;
+          }
+          .us-footer-divider {
+            padding: 0 30px;
+          }
+          .us-footer-bottom {
+            padding: 16px 30px 24px;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 10px;
+          }
+          .us-footer-bottom p {
+            font-size: 0.75rem;
+          }
+          .us-back-top {
+            font-size: 0.72rem;
+            padding: 6px 12px;
+          }
+        }
+
+        @media (max-width: 600px) {
+          .us-footer-inner {
+            grid-template-columns: 1fr;
+            padding: 40px 20px 20px;
+            gap: 28px;
+          }
+          .us-brand-logo .logo-icon {
+            width: 32px;
+            height: 32px;
+          }
+          .us-brand-logo span {
+            font-size: 1.1rem;
+          }
+          .us-brand-desc {
+            font-size: 0.77rem;
+            max-width: 100%;
+            margin-bottom: 20px;
+            line-height: 1.7;
+          }
+          .us-socials {
+            gap: 8px;
+          }
+          .us-social-btn {
+            width: 32px;
+            height: 32px;
+          }
+          .us-col h4 {
+            font-size: 0.68rem;
+            margin-bottom: 14px;
+            letter-spacing: 1.5px;
+          }
+          .us-col ul {
+            gap: 9px;
+          }
+          .us-col ul li a {
+            font-size: 0.8rem;
+          }
+          .us-link-btn {
+            font-size: 0.8rem;
+          }
+          .us-feedback-btn {
+            font-size: 0.75rem;
+            padding: 6px 16px;
+            margin-top: 6px;
+          }
+          .us-footer-divider {
+            padding: 0 20px;
+          }
+          .us-footer-bottom {
+            padding: 14px 20px 20px;
+          }
+          .us-back-top {
+            width: 100%;
+            justify-content: center;
+            font-size: 0.7rem;
+            padding: 6px 12px;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .us-footer-inner {
+            padding: 32px 16px 16px;
+            gap: 24px;
+          }
+          .us-brand-logo .logo-icon {
+            width: 28px;
+            height: 28px;
+          }
+          .us-brand-logo span {
+            font-size: 0.95rem;
+          }
+          .us-brand-desc {
+            font-size: 0.74rem;
+            margin-bottom: 18px;
+          }
+          .us-socials {
+            gap: 6px;
+          }
+          .us-social-btn {
+            width: 28px;
+            height: 28px;
+            font-size: 0.75rem;
+          }
+          .us-col h4 {
+            font-size: 0.65rem;
+            margin-bottom: 12px;
+          }
+          .us-col ul {
+            gap: 8px;
+          }
+          .us-col ul li a {
+            font-size: 0.75rem;
+          }
+          .us-link-btn {
+            font-size: 0.75rem;
+          }
+          .us-feedback-btn {
+            font-size: 0.7rem;
+            padding: 5px 14px;
+          }
+          .us-footer-divider {
+            padding: 0 16px;
+          }
+          .us-footer-bottom {
+            padding: 12px 16px 18px;
+            gap: 8px;
+          }
+          .us-footer-bottom p {
+            font-size: 0.7rem;
+          }
+          .us-back-top {
+            font-size: 0.65rem;
+            padding: 5px 10px;
+          }
+        }
+
         .us-brand-logo {
           display: flex;
           align-items: center;
@@ -509,6 +677,22 @@ export default function Footer() {
           display: inline-block;
         }
         .us-col ul li a:hover {
+          color: #00B4D8;
+        }
+
+        .us-link-btn {
+          font-size: 0.855rem;
+          color: rgba(240,248,255,0.55);
+          text-decoration: none;
+          transition: color 0.2s;
+          display: inline-block;
+          background: none;
+          border: none;
+          padding: 0;
+          cursor: pointer;
+          font-family: 'Poppins', sans-serif;
+        }
+        .us-link-btn:hover {
           color: #00B4D8;
         }
 
@@ -613,44 +797,44 @@ export default function Footer() {
               Empowering Sri Lankan university students with free study resources, peer learning sessions, and AI-powered quizzes.
             </p>
             <div className="us-socials">
-              <a className="us-social-btn" href="#"><Twitter size={15} /></a>
-              <a className="us-social-btn" href="#"><Linkedin size={15} /></a>
-              <a className="us-social-btn" href="#"><Instagram size={15} /></a>
-              <a className="us-social-btn" href="#"><Facebook size={15} /></a>
+              <button className="us-social-btn" type="button" aria-label="Follow on Twitter"><Twitter size={15} /></button>
+              <button className="us-social-btn" type="button" aria-label="Follow on LinkedIn"><Linkedin size={15} /></button>
+              <button className="us-social-btn" type="button" aria-label="Follow on Instagram"><Instagram size={15} /></button>
+              <button className="us-social-btn" type="button" aria-label="Follow on Facebook"><Facebook size={15} /></button>
             </div>
           </div>
 
           <div className="us-col">
             <h4>Site Map</h4>
             <ul>
-              <li><a href="#">Homepage</a></li>
-              <li><a href="#">Library</a></li>
-              <li><a href="#">Quiz</a></li>
-              <li><a href="#">KUPPI Sessions</a></li>
-              <li><a href="#">Forum</a></li>
-              <li><a href="#">Careers</a></li>
-              <li><a href="#">Portal</a></li>
+              <li><button type="button" className="us-link-btn">Homepage</button></li>
+              <li><button type="button" className="us-link-btn">Library</button></li>
+              <li><button type="button" className="us-link-btn">Quiz</button></li>
+              <li><button type="button" className="us-link-btn">KUPPI Sessions</button></li>
+              <li><button type="button" className="us-link-btn">Forum</button></li>
+              <li><button type="button" className="us-link-btn">Careers</button></li>
+              <li><button type="button" className="us-link-btn">Portal</button></li>
             </ul>
           </div>
 
           <div className="us-col">
             <h4>Resources &amp; News</h4>
             <ul>
-              <li><a href="#">Study Guides</a></li>
-              <li><a href="#">Past Papers</a></li>
-              <li><a href="#">Lecture Notes</a></li>
-              <li><a href="#">Student Blog</a></li>
-              <li><a href="#">Announcements</a></li>
+              <li><button type="button" className="us-link-btn">Study Guides</button></li>
+              <li><button type="button" className="us-link-btn">Past Papers</button></li>
+              <li><button type="button" className="us-link-btn">Lecture Notes</button></li>
+              <li><button type="button" className="us-link-btn">Student Blog</button></li>
+              <li><button type="button" className="us-link-btn">Announcements</button></li>
             </ul>
           </div>
 
           <div className="us-col">
             <h4>Legal</h4>
             <ul>
-              <li><a href="#">Privacy Policy</a></li>
-              <li><a href="#">Terms of Service</a></li>
-              <li><a href="#">Cookie Policy</a></li>
-              <li><a href="#">Contact Us</a></li>
+              <li><button type="button" className="us-link-btn">Privacy Policy</button></li>
+              <li><button type="button" className="us-link-btn">Terms of Service</button></li>
+              <li><button type="button" className="us-link-btn">Cookie Policy</button></li>
+              <li><button type="button" className="us-link-btn">Contact Us</button></li>
             </ul>
             <button
               className="us-feedback-btn"

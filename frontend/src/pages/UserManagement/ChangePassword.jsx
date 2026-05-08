@@ -255,6 +255,104 @@ export default function ChangePassword() {
           background: #f4f7ff;
           min-height: 100px;
         }
+
+        /* ══════════════════════════════════════
+           RESPONSIVE
+        ══════════════════════════════════════ */
+        @media (max-width: 1024px) {
+          .cp-card-wrap { max-width: 460px; padding: 0 28px 44px; }
+          .cp-hero { min-height: 270px; }
+          .cp-card { padding: 28px 32px 32px; }
+          .cp-title { font-size: 1.15rem; }
+        }
+        
+        @media (max-width: 900px) {
+          .cp-card-wrap { max-width: 440px; padding: 0 24px 40px; }
+          .cp-hero { min-height: 260px; }
+          .cp-card { padding: 26px 28px 30px; }
+          .cp-title { font-size: 1.1rem; }
+          .cp-sub { font-size: 0.72rem; }
+          .cp-input { font-size: 0.8rem; padding: 10px 12px; }
+          .cp-label { font-size: 0.68rem; margin-bottom: 6px; }
+          .cp-form-group { margin-bottom: 16px; }
+        }
+        
+        @media (max-width: 768px) {
+          .cp-card-wrap { max-width: 100%; padding: 0 20px 48px; margin: 0 auto; }
+          .cp-hero { min-height: 240px; padding-top: 32px; }
+          .cp-card { padding: 24px 24px 28px; border-radius: 18px; }
+          .cp-card-icon { width: 46px; height: 46px; margin-bottom: 14px; }
+          .cp-title { font-size: 1.05rem; margin-bottom: 3px; }
+          .cp-sub { font-size: 0.7rem; margin-bottom: 24px; }
+          .cp-label { font-size: 0.66rem; margin-bottom: 6px; }
+          .cp-input { font-size: 0.78rem; padding: 9px 12px; }
+          .cp-input-wrap { position: relative; }
+          .cp-eye { right: 11px; }
+          .strength-wrap { margin-top: 8px; }
+          .check-chip { font-size: 0.58rem; padding: 2px 7px; }
+          .cp-form-group { margin-bottom: 14px; }
+          .cp-actions { gap: 8px; margin-top: 22px; }
+          .btn-back { padding: 9px 14px; font-size: 0.76rem; }
+          .btn-submit { padding: 9px 14px; font-size: 0.78rem; }
+          .cp-alert { padding: 10px 12px; font-size: 0.74rem; }
+        }
+        
+        @media (max-width: 640px) {
+          .cp-card-wrap { padding: 0 16px 40px; }
+          .cp-hero { min-height: 220px; padding-top: 24px; }
+          .cp-card { padding: 20px 20px 24px; border-radius: 16px; }
+          .cp-card-icon { width: 42px; height: 42px; margin-bottom: 12px; }
+          .cp-title { font-size: 1rem; margin-bottom: 2px; }
+          .cp-sub { font-size: 0.68rem; margin-bottom: 20px; }
+          .cp-label { font-size: 0.64rem; margin-bottom: 5px; }
+          .cp-input { font-size: 0.76rem; padding: 8px 11px; }
+          .strength-track { height: 4px; margin-bottom: 5px; }
+          .check-chip { font-size: 0.56rem; padding: 1px 6px; }
+          .cp-form-group { margin-bottom: 12px; }
+          .strength-wrap { margin-top: 6px; }
+          .cp-actions { gap: 6px; margin-top: 18px; flex-wrap: wrap; }
+          .btn-back, .btn-submit { padding: 8px 12px; font-size: 0.74rem; }
+          .cp-alert { padding: 9px 11px; font-size: 0.7rem; }
+        }
+        
+        @media (max-width: 480px) {
+          .cp-card-wrap { padding: 0 12px 32px; }
+          .cp-hero { min-height: 200px; padding-top: 16px; }
+          .cp-card { padding: 16px 16px 20px; border-radius: 14px; }
+          .cp-card-icon { width: 38px; height: 38px; margin-bottom: 10px; }
+          .cp-title { font-size: 0.95rem; }
+          .cp-sub { font-size: 0.65rem; margin-bottom: 18px; }
+          .cp-label { font-size: 0.6rem; margin-bottom: 4px; }
+          .cp-input { font-size: 0.74rem; padding: 7px 10px; }
+          .cp-eye { right: 9px; }
+          .strength-track { height: 3px; margin-bottom: 4px; }
+          .check-chip { font-size: 0.52rem; padding: 1px 5px; }
+          .cp-form-group { margin-bottom: 10px; }
+          .strength-wrap { margin-top: 5px; }
+          .cp-actions { gap: 6px; margin-top: 14px; }
+          .btn-back { padding: 7px 10px; font-size: 0.7rem; }
+          .btn-submit { padding: 7px 10px; font-size: 0.72rem; }
+          .cp-alert { padding: 8px 10px; font-size: 0.66rem; margin-bottom: 14px; }
+          .cp-body { padding-bottom: 60px; }
+        }
+        
+        @media (max-width: 360px) {
+          .cp-card-wrap { padding: 0 8px 24px; }
+          .cp-hero { min-height: 180px; padding-top: 12px; }
+          .cp-card { padding: 12px 12px 16px; border-radius: 12px; }
+          .cp-card-icon { width: 34px; height: 34px; margin-bottom: 8px; }
+          .cp-title { font-size: 0.9rem; }
+          .cp-sub { font-size: 0.62rem; margin-bottom: 16px; }
+          .cp-label { font-size: 0.56rem; margin-bottom: 3px; }
+          .cp-input { font-size: 0.7rem; padding: 6px 9px; }
+          .strength-track { height: 3px; margin-bottom: 3px; }
+          .check-chip { font-size: 0.48rem; padding: 0px 4px; }
+          .cp-form-group { margin-bottom: 8px; }
+          .cp-actions { gap: 4px; margin-top: 10px; flex-direction: column; }
+          .btn-back, .btn-submit { padding: 6px 10px; font-size: 0.68rem; width: 100%; }
+          .cp-alert { padding: 7px 8px; font-size: 0.62rem; margin-bottom: 10px; }
+          .cp-body { padding-bottom: 40px; }
+        }
       `}</style>
 
       <Navbar />

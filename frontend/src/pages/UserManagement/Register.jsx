@@ -250,15 +250,80 @@ const styles = `
   .reg-footer a { color: var(--blue); font-weight: 600; text-decoration: none; }
   .reg-footer a:hover { text-decoration: underline; }
 
-  /* ── Responsive ── */
+  /* ─────────────────────────────────────────────────────────────
+     COMPREHENSIVE MOBILE RESPONSIVE STYLES
+  ───────────────────────────────────────────────────────────── */
+
+  @media (max-width: 1024px) {
+    .reg-page { grid-template-columns: 1fr; }
+    .reg-left { display: none; }
+    .reg-right { padding: 48px 40px; }
+  }
+
   @media (max-width: 860px) {
     .reg-page { grid-template-columns: 1fr; }
     .reg-left  { display: none; }
-    .reg-right { padding: 40px 28px; }
+    .reg-right { padding: 40px 32px; }
+    .reg-form-wrap { max-width: 100%; }
+    .reg-title { font-size: 1.45rem; }
+    .reg-subtitle { font-size: 0.8rem; }
+    .reg-input { font-size: 0.9rem; padding: 10px 14px; }
+    .reg-button { font-size: 0.84rem; padding: 10px; }
   }
-  @media (max-width: 480px) {
-    .reg-row { grid-template-columns: 1fr; }
+
+  @media (max-width: 768px) {
+    .reg-right { padding: 36px 28px; }
+    .reg-form-wrap { max-width: 100%; }
+    .reg-eyebrow { font-size: 0.68rem; margin-bottom: 6px; }
+    .reg-eyebrow::before { width: 16px; }
+    .reg-title { font-size: 1.3rem; margin-bottom: 3px; }
+    .reg-subtitle { font-size: 0.78rem; }
+    .reg-input { font-size: 0.88rem; padding: 8px 12px; height: 36px; }
+    .reg-select { font-size: 0.88rem; padding: 8px 12px; height: 36px; }
+    .reg-button { font-size: 0.82rem; padding: 8px; height: 36px; }
+    .reg-footer { font-size: 0.75rem; gap: 16px; flex-wrap: wrap; }
+    .reg-row { gap: 10px; }
+  }
+
+  @media (max-width: 600px) {
     .reg-right { padding: 32px 20px; }
+    .reg-form-wrap { width: 100%; }
+    .reg-eyebrow { font-size: 0.65rem; letter-spacing: 1.5px; }
+    .reg-eyebrow::before { width: 12px; }
+    .reg-title { font-size: 1.15rem; margin-bottom: 2px; line-height: 1.25; }
+    .reg-subtitle { font-size: 0.75rem; }
+    .reg-error { font-size: 0.78rem; padding: 9px 12px; }
+    .reg-input { font-size: 16px; padding: 9px 11px; height: 38px; border-radius: 8px; }
+    .reg-input::placeholder { font-size: 0.8rem; }
+    .reg-select { font-size: 16px; padding: 9px 11px; height: 38px; }
+    .reg-button { font-size: 0.8rem; padding: 9px; height: 38px; border-radius: 8px; width: 100%; }
+    .reg-footer { flex-direction: column; font-size: 0.73rem; gap: 10px; }
+    .reg-row { grid-template-columns: 1fr; gap: 10px; }
+    .reg-left-pills { gap: 6px; margin-top: 20px; }
+    .reg-left-pill { font-size: 0.65rem; padding: 4px 10px; }
+  }
+
+  @media (max-width: 480px) {
+    .reg-right { padding: 28px 16px; }
+    .reg-eyebrow { font-size: 0.6rem; letter-spacing: 1.2px; margin-bottom: 4px; }
+    .reg-eyebrow::before { width: 10px; height: 1px; }
+    .reg-title { font-size: 1rem; margin-bottom: 1px; }
+    .reg-subtitle { font-size: 0.72rem; }
+    .reg-error { font-size: 0.75rem; padding: 8px 10px; }
+    .reg-input { font-size: 16px; padding: 8px 10px; height: 36px; margin-bottom: 10px; }
+    .reg-select { font-size: 16px; padding: 8px 10px; height: 36px; }
+    .reg-button { font-size: 0.78rem; padding: 8px; height: 36px; margin-bottom: 10px; }
+    .reg-footer { font-size: 0.7rem; gap: 8px; }
+    .reg-row { gap: 8px; }
+  }
+
+  @media (max-width: 360px) {
+    .reg-right { padding: 24px 12px; }
+    .reg-title { font-size: 0.95rem; }
+    .reg-subtitle { font-size: 0.68rem; }
+    .reg-input { font-size: 16px; padding: 7px 9px; height: 34px; }
+    .reg-select { font-size: 16px; padding: 7px 9px; height: 34px; }
+    .reg-button { font-size: 0.75rem; padding: 6px; height: 34px; }
   }
 
   /* ── Success animation ── */

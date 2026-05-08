@@ -183,7 +183,7 @@ function RegisterModal({ meeting, onClose, onRegistered }) {
     setSubmitError("");
 
     try {
-      const response = await axios.post(`${API_BASE}/register`, {
+      await axios.post(`${API_BASE}/register`, {
         meetingId: meeting._id || meeting.id,
         userId: user?._id || user?.id || null,
         fullName: form.fullName,
@@ -475,7 +475,7 @@ export default function Meetings() {
     };
 
     loadMeetings();
-  }, [userId]);
+  }, [userId, user?.email]);
 
   const filtered = meetings.filter((m) => {
     const matchTab =
@@ -648,12 +648,154 @@ export default function Meetings() {
         .meet-section-line { flex: 1; height: 1px; background: #dde8f8; }
         .meetings-grid { width: 100%; padding: 0 40px 60px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
         @media (max-width: 1100px) { .meetings-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 900px) {
+          .meet-hero { padding: 50px 40px 60px; }
+          .meet-tabs { gap: 8px; }
+          .meet-tab { font-size: 0.78rem; padding: 6px 16px; }
+          .meet-hero-bio { max-width: 500px; padding: 20px 24px; margin-bottom: 20px; }
+          .meet-hero-bio-heading { font-size: 1.3rem; margin-bottom: 8px; }
+          .meet-hero-bio-text { font-size: 0.82rem; }
+          .meet-search { max-width: 420px; }
+          .meet-search input { font-size: 0.82rem; }
+          .meet-create-wrap { padding: 16px 40px 0; }
+          .meet-create-btn { font-size: 0.78rem; padding: 8px 16px; }
+          .meet-saved-btn { font-size: 0.75rem; padding: 7px 14px; }
+          .meet-section-header { padding: 0 40px; margin: 18px auto 18px; }
+          .meet-notice-wrap { padding: 12px 40px 0; }
+          .meetings-grid { padding: 0 40px 50px; }
+          .meeting-card-top { padding: 12px 14px 6px; }
+          .meeting-title { font-size: 0.88rem; }
+          .meeting-desc { font-size: 0.75rem; }
+          .meeting-info-row { font-size: 0.68rem; gap: 10px; }
+        }
         @media (max-width: 768px) {
-          .meet-hero { padding: 50px 24px 60px; }
-          .meet-create-wrap { padding: 16px 20px 0; }
-          .meet-notice-wrap { padding: 12px 20px 0; }
-          .meet-section-header { padding: 0 20px; }
-          .meetings-grid { grid-template-columns: 1fr; padding: 0 20px 40px; }
+          .meet-hero { padding: 40px 24px 50px; min-height: 300px; }
+          .meet-tabs { gap: 6px; margin-bottom: 20px; }
+          .meet-tab { font-size: 0.75rem; padding: 5px 14px; gap: 5px; }
+          .meet-hero-bio { max-width: 100%; padding: 18px 20px; margin-bottom: 18px; }
+          .meet-hero-bio-heading { font-size: 1.15rem; margin-bottom: 6px; }
+          .meet-hero-bio-text { font-size: 0.78rem; }
+          .meet-search { max-width: 100%; }
+          .meet-search input { font-size: 0.8rem; }
+          .meet-create-wrap { padding: 14px 20px 0; justify-content: center; }
+          .meet-create-actions { gap: 8px; width: 100%; justify-content: center; flex-wrap: wrap; }
+          .meet-create-btn { font-size: 0.75rem; padding: 6px 14px; }
+          .meet-saved-btn { font-size: 0.72rem; padding: 6px 12px; }
+          .meet-section-header { padding: 0 20px; gap: 8px; margin: 16px auto 16px; }
+          .meet-section-label { font-size: 0.7rem; padding: 4px 10px; }
+          .meet-notice-wrap { padding: 10px 20px 0; }
+          .meet-notice { font-size: 0.78rem; padding: 8px 12px; }
+          .meetings-grid { grid-template-columns: 1fr; padding: 0 20px 40px; gap: 14px; }
+          .meeting-card { border-radius: 12px; }
+          .meeting-card-top { padding: 10px 12px 4px; gap: 4px; }
+          .meeting-module { font-size: 0.6rem; padding: 2px 8px; }
+          .status-badge { font-size: 0.6rem; padding: 2px 8px; gap: 3px; }
+          .meeting-card-body { padding: 4px 12px 10px; }
+          .meeting-title { font-size: 0.84rem; margin-bottom: 5px; }
+          .meeting-desc { font-size: 0.72rem; margin-bottom: 8px; }
+          .meeting-info-row { font-size: 0.65rem; gap: 8px; }
+          .meeting-card-actions { padding: 10px 12px 12px; gap: 6px; }
+          .bookmark-btn { font-size: 0.72rem; padding: 6px; }
+          .bookmark-msg { font-size: 0.6rem; }
+          .btn-register-seat { font-size: 0.72rem; padding: 6px; }
+          .btn-edit { font-size: 0.72rem; padding: 6px; }
+          .btn-delete { font-size: 0.72rem; padding: 6px; }
+          .btn-view-registrations { font-size: 0.72rem; padding: 6px; }
+          .modal-box { max-width: 90vw; }
+          .edit-modal { max-width: 90vw; max-height: 95vh; }
+          .registrations-modal { max-width: 90vw; }
+        }
+        @media (max-width: 600px) {
+          .meet-hero { padding: 32px 16px 42px; min-height: 260px; }
+          .meet-tabs { gap: 4px; margin-bottom: 16px; }
+          .meet-tab { font-size: 0.7rem; padding: 4px 12px; border-radius: 24px; }
+          .meet-tab span { display: none; }
+          .meet-hero-bio { padding: 14px 16px; margin-bottom: 14px; border-radius: 12px; }
+          .meet-hero-bio-heading { font-size: 1rem; margin-bottom: 4px; }
+          .meet-hero-bio-text { font-size: 0.75rem; }
+          .meet-search input { font-size: 16px; padding: 8px 12px; min-height: 36px; }
+          .meet-search { padding: 6px 12px; border-radius: 24px; max-width: 100%; }
+          .meet-create-wrap { padding: 12px 16px 0; }
+          .meet-create-actions { flex-direction: column; }
+          .meet-create-btn { font-size: 0.7rem; padding: 6px 12px; width: 100%; }
+          .meet-saved-btn { font-size: 0.65rem; padding: 5px 10px; width: 100%; }
+          .meet-section-header { padding: 0 16px; gap: 6px; margin: 14px auto 12px; }
+          .meet-section-label { font-size: 0.65rem; padding: 3px 8px; }
+          .meet-notice-wrap { padding: 8px 16px 0; }
+          .meetings-grid { padding: 0 16px 32px; }
+          .meeting-card { border-radius: 10px; }
+          .meeting-card-top { padding: 8px 10px 3px; }
+          .meeting-module { font-size: 0.55rem; padding: 1px 6px; }
+          .status-badge { font-size: 0.55rem; padding: 1px 6px; }
+          .meeting-card-body { padding: 3px 10px 8px; }
+          .meeting-title { font-size: 0.8rem; margin-bottom: 4px; line-height: 1.3; }
+          .meeting-desc { font-size: 0.68rem; margin-bottom: 6px; line-height: 1.4; }
+          .meeting-info-row { font-size: 0.6rem; gap: 6px; flex-wrap: wrap; }
+          .meeting-card-actions { padding: 8px 10px 10px; gap: 5px; }
+          .bookmark-btn { font-size: 0.65rem; padding: 5px; }
+          .bookmark-msg { font-size: 0.55rem; }
+          .btn-register-seat { font-size: 0.65rem; padding: 5px; }
+          .btn-edit { font-size: 0.65rem; padding: 5px; }
+          .btn-delete { font-size: 0.65rem; padding: 5px; }
+          .btn-view-registrations { font-size: 0.65rem; padding: 5px; }
+          .modal-box { max-width: 95vw; max-height: 90vh; }
+          .modal-header { padding: 16px 18px 12px; }
+          .modal-module { font-size: 0.6rem; }
+          .modal-title { font-size: 0.95rem; }
+          .modal-meta { font-size: 0.7rem; gap: 10px; }
+          .modal-form { padding: 16px 16px 14px; gap: 4px; }
+          .modal-form label { font-size: 0.73rem; }
+          .modal-form input, .modal-form textarea { font-size: 16px; padding: 8px 10px; min-height: 36px; border-radius: 8px; }
+          .modal-actions { gap: 8px; margin-top: 10px; }
+          .btn-cancel { font-size: 0.75rem; padding: 8px; }
+          .btn-register { font-size: 0.75rem; padding: 8px; }
+          .edit-modal { max-width: 95vw; max-height: 90vh; }
+          .edit-modal-header { padding: 14px 16px 10px; font-size: 0.9rem; }
+          .edit-close { width: 24px; height: 24px; }
+          .edit-form { padding: 14px 14px 12px; gap: 6px; }
+          .edit-form label { font-size: 0.7rem; }
+          .edit-form input, .edit-form textarea, .edit-form select { font-size: 16px; padding: 8px 10px; min-height: 36px; }
+          .edit-row { grid-template-columns: 1fr; }
+          .edit-actions { justify-content: stretch; }
+          .btn-edit-cancel { flex: 1; font-size: 0.75rem; padding: 8px; }
+          .btn-edit-save { flex: 1; font-size: 0.75rem; padding: 8px; }
+          .registrations-modal { max-width: 95vw; }
+        }
+        @media (max-width: 480px) {
+          .meet-hero { padding: 24px 12px 36px; min-height: 240px; }
+          .meet-tabs { gap: 3px; margin-bottom: 14px; }
+          .meet-tab { font-size: 0.65rem; padding: 3px 10px; gap: 3px; }
+          .meet-hero-bio { padding: 12px 14px; margin-bottom: 12px; }
+          .meet-hero-bio-heading { font-size: 0.95rem; margin-bottom: 3px; }
+          .meet-hero-bio-text { font-size: 0.72rem; }
+          .meet-search input { font-size: 16px; padding: 7px 10px; }
+          .meet-search { padding: 5px 10px; }
+          .meet-create-wrap { padding: 10px 12px 0; }
+          .meet-create-btn { font-size: 0.65rem; padding: 5px 10px; }
+          .meet-section-header { padding: 0 12px; margin: 12px auto 10px; }
+          .meetings-grid { padding: 0 12px 28px; }
+          .meeting-card { border-radius: 8px; }
+          .meeting-card-top { padding: 7px 9px 2px; }
+          .meeting-title { font-size: 0.76rem; }
+          .meeting-desc { font-size: 0.65rem; }
+          .meeting-info-row { font-size: 0.55rem; }
+          .meeting-card-actions { padding: 6px 9px 8px; }
+          .modal-box { max-width: 98vw; max-height: 88vh; }
+          .modal-header { padding: 12px 14px 8px; }
+          .modal-title { font-size: 0.9rem; }
+          .modal-form { padding: 12px 12px 10px; }
+          .modal-form input, .modal-form textarea { font-size: 16px; padding: 7px 9px; }
+          .edit-modal { max-width: 98vw; }
+          .edit-form { padding: 12px 12px 10px; }
+          .edit-form input, .edit-form textarea, .edit-form select { font-size: 16px; padding: 7px 9px; }
+        }
+        @media (max-width: 360px) {
+          .meet-hero { padding: 20px 10px 32px; min-height: 220px; }
+          .meet-hero-bio { padding: 10px 12px; }
+          .meet-hero-bio-heading { font-size: 0.9rem; }
+          .meetings-grid { padding: 0 10px 24px; }
+          .meeting-title { font-size: 0.72rem; }
+          .meeting-desc { font-size: 0.62rem; }
         }
 
         /* ── CARD ── */
